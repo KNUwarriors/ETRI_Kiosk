@@ -4,18 +4,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import android.content.Intent;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -25,15 +27,19 @@ public class MainActivity extends AppCompatActivity {
     SpeechRecognizer mRecognizer;
     final int PERMISSION = 1;
 
+    private String fullResult = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         // 안드로이드 6.0버전 이상인지 체크해서 퍼미션 체크
-        if(Build.VERSION.SDK_INT >= 23){
-            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.INTERNET,
-                    Manifest.permission.RECORD_AUDIO},PERMISSION);
+        if (Build.VERSION.SDK_INT >= 23) {
+            ActivityCompat.requestPermissions(this, new String[]{
+                    Manifest.permission.INTERNET,
+                    Manifest.permission.RECORD_AUDIO
+            }, PERMISSION);
         }
 
         textView = findViewById(R.id.resultTextView);
@@ -41,16 +47,16 @@ public class MainActivity extends AppCompatActivity {
 
         // RecognizerIntent 생성
         intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,getPackageName()); // 여분의 키
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"ko-KR"); // 언어 설정
+        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR");
 
         // 버튼 클릭 시 객체에 Context와 listener를 할당
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mRecognizer = SpeechRecognizer.createSpeechRecognizer(MainActivity.this); // 새 SpeechRecognizer 를 만드는 팩토리 메서드
-                mRecognizer.setRecognitionListener(listener); // 리스너 설정
-                mRecognizer.startListening(intent); // 듣기 시작
+                mRecognizer = SpeechRecognizer.createSpeechRecognizer(MainActivity.this);
+                mRecognizer.setRecognitionListener(listener);
+                mRecognizer.startListening(intent);
             }
         });
     }
@@ -58,33 +64,27 @@ public class MainActivity extends AppCompatActivity {
     private RecognitionListener listener = new RecognitionListener() {
         @Override
         public void onReadyForSpeech(Bundle params) {
-            // 말하기 시작할 준비가되면 호출
-            Toast.makeText(getApplicationContext(),"음성인식 시작",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "음성인식 시작", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onBeginningOfSpeech() {
-            // 말하기 시작했을 때 호출
         }
 
         @Override
         public void onRmsChanged(float rmsdB) {
-            // 입력받는 소리의 크기를 알려줌
         }
 
         @Override
         public void onBufferReceived(byte[] buffer) {
-            // 말을 시작하고 인식이 된 단어를 buffer에 담음
         }
 
         @Override
         public void onEndOfSpeech() {
-            // 말하기를 중지하면 호출
         }
 
         @Override
         public void onError(int error) {
-            // 네트워크 또는 인식 오류가 발생했을 때 호출
             String message;
 
             switch (error) {
@@ -120,29 +120,40 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
 
-            Toast.makeText(getApplicationContext(), "에러 발생 : " + message,Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "에러 발생: " + message, Toast.LENGTH_SHORT).show();
         }
 
-        @Override
         public void onResults(Bundle results) {
-            // 인식 결과가 준비되면 호출
-            // 말을 하면 ArrayList에 단어를 넣고 textView에 단어를 이어줌
-            ArrayList<String> matches =
-                    results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+            ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
 
-            for(int i = 0; i < matches.size() ; i++){
-                textView.setText(matches.get(i));
+            StringBuilder allResults = new StringBuilder();
+
+            for (int i = 0; i < matches.size(); i++) {
+                String result = matches.get(i);
+                allResults.append(result).append(" ");
             }
+
+            fullResult = allResults.toString();
+
+            textView.setText(fullResult);
+            Log.d("Recognized Text", fullResult);
+            System.out.println(fullResult);
+
+            // ETRIApiHandler를 통해 API 호출 및 결과 표시
+            ETRIApiHandler.queryETRIApi(fullResult, "아메리카노 한잔 주세요:아메리카노, 라떼 한잔 주세요:라뗴, 녹차라떼 한잔 주세요:녹차라떼, 아이스티 한잔 주세요:아이스티, 자몽에이드 한잔 주세요:자몽에이드, 블루베리스무디 한잔 주세요:블루베리스무디, 초코스무디 한잔 주세요:초코스무디, 카모마일 차 한잔 주세요:카모마일 차, 유자차 한잔 주세요:유자차, 홍차 한잔 주세요:홍차", new ETRIApiHandler.OnETRIApiResultListener() {
+                @Override
+                public void onApiResult(String result) {
+                    textView.setText(result);
+                }
+            });
         }
 
         @Override
         public void onPartialResults(Bundle partialResults) {
-            // 부분 인식 결과를 사용할 수 있을 때 호출
         }
 
         @Override
         public void onEvent(int eventType, Bundle params) {
-            // 향후 이벤트를 추가하기 위해 예약
         }
     };
 }
