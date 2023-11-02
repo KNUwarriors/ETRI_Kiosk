@@ -1,6 +1,7 @@
 package com.warriors.etri.kiosk;
 
 import android.os.AsyncTask;
+import android.speech.RecognitionListener;
 import android.util.Log;
 import com.google.gson.Gson;
 
@@ -19,9 +20,10 @@ import java.util.Map;
 public class ETRIApiHandler {
     private static final String OPEN_API_URL = "http://aiopen.etri.re.kr:8000/MRCServlet";
     private static final String ACCESS_KEY = "c692a8e7-7450-432a-9468-a4049cc27974";
+    private static String responseBody;
 
     public interface OnETRIApiResultListener {
-        void onApiResult(String result);
+        void onApiResult(String result, String responseBody);
     }
 
     public static void queryETRIApi(String passage, String question, OnETRIApiResultListener listener) {
@@ -52,7 +54,6 @@ public class ETRIApiHandler {
 
             URL url;
             Integer responseCode = null;
-            String responseBody = null;
 
             try {
                 url = new URL(OPEN_API_URL);
@@ -92,13 +93,12 @@ public class ETRIApiHandler {
 
             return responseBody;
         }
-
-
-
         @Override
         protected void onPostExecute(String result) {
             // 코드는 ETRIApiHandler 클래스 내의 이 부분을 설명하는 코드입니다.
             // ETRI API의 결과를 처리하고 결과를 listener를 통해 전달합니다.
+            listener.onApiResult(result, responseBody);
         }
+
     }
 }

@@ -19,9 +19,13 @@ import java.util.ArrayList;
 
 import android.content.Intent;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 
-public class MainActivity extends AppCompatActivity {
+
+public class MainActivity extends AppCompatActivity implements ETRIApiHandler.OnETRIApiResultListener {
     TextView textView;
+    TextView apiTextView;
     Button button;
     Intent intent;
     SpeechRecognizer mRecognizer;
@@ -43,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         textView = findViewById(R.id.resultTextView);
+        apiTextView = findViewById(R.id.apiTextView);
         button = findViewById(R.id.startButton);
 
         // RecognizerIntent 생성
@@ -139,13 +144,29 @@ public class MainActivity extends AppCompatActivity {
             Log.d("Recognized Text", fullResult);
             System.out.println(fullResult);
 
-            // ETRIApiHandler를 통해 API 호출 및 결과 표시
-            ETRIApiHandler.queryETRIApi(fullResult, "아메리카노 한잔 주세요:아메리카노, 라떼 한잔 주세요:라뗴, 녹차라떼 한잔 주세요:녹차라떼, 아이스티 한잔 주세요:아이스티, 자몽에이드 한잔 주세요:자몽에이드, 블루베리스무디 한잔 주세요:블루베리스무디, 초코스무디 한잔 주세요:초코스무디, 카모마일 차 한잔 주세요:카모마일 차, 유자차 한잔 주세요:유자차, 홍차 한잔 주세요:홍차", new ETRIApiHandler.OnETRIApiResultListener() {
+            final ETRIApiHandler.OnETRIApiResultListener onETRIApiResultListener = new ETRIApiHandler.OnETRIApiResultListener() {
                 @Override
-                public void onApiResult(String result) {
-                    textView.setText(result);
+                public void onApiResult(String result, String responseBody) {
+                    try {
+                        JSONObject responseJSON = new JSONObject(responseBody);
+                        JSONObject returnObject = responseJSON.getJSONObject("return_object");
+                        JSONObject mrcInfo = returnObject.getJSONObject("MRCInfo");
+                        String answer = mrcInfo.getString("answer");
+
+                        // "answer" 값을 출력 또는 처리
+                        Log.d("Extracted Answer", answer);
+
+                        // 필요에 따라 결과를 출력하거나 다른 작업을 수행합니다.
+                        String displayText = answer;
+                        apiTextView.setText(displayText);
+                        Log.d("API 결과와 응답 본문1", displayText);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-            });
+            };
+            // ETRIApiHandler를 통해 API 호출 및 결과 표시
+            ETRIApiHandler.queryETRIApi(fullResult, "아메리카노 한잔 주세요:아메리카노, 라떼 한잔 주세요:라뗴, 녹차라떼 한잔 주세요:녹차라떼, 아이스티 한잔 주세요:아이스티, 자몽에이드 한잔 주세요:자몽에이드, 블루베리스무디 한잔 주세요:블루베리스무디, 초코스무디 한잔 주세요:초코스무디, 카모마일 차 한잔 주세요:카모마일 차, 유자차 한잔 주세요:유자차, 홍차 한잔 주세요:홍차", onETRIApiResultListener);
         }
 
         @Override
@@ -155,5 +176,27 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onEvent(int eventType, Bundle params) {
         }
+
     };
+
+    @Override
+    public void onApiResult(String result, String responseBody) {
+        try {
+            JSONObject responseJSON = new JSONObject(responseBody);
+            JSONObject returnObject = responseJSON.getJSONObject("return_object");
+            JSONObject mrcInfo = returnObject.getJSONObject("MRCInfo");
+            String answer = mrcInfo.getString("answer");
+
+            // "answer" 값을 출력 또는 처리
+            Log.d("Extracted Answer", answer);
+
+            // 필요에 따라 결과를 출력하거나 다른 작업을 수행합니다.
+            String displayText = answer;
+            apiTextView.setText(displayText);
+            Log.d("API 결과와 응답 본문1", displayText);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
