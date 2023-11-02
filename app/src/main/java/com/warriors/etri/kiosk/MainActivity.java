@@ -18,7 +18,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import android.content.Intent;
-
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -160,6 +161,22 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
                         String displayText = answer;
                         apiTextView.setText(displayText);
                         Log.d("API 결과와 응답 본문1", displayText);
+                        new AlertDialog.Builder(MainActivity.this)
+                                .setTitle("메뉴 확인")
+                                .setMessage(answer + "를 장바구니에 담으시겠습니까?")
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Log.d("MyTag", "positive");
+                                    }
+                                })
+                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Log.d("MyTag", "negative");
+                                    }
+                                })
+                                .show();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -194,6 +211,13 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
             String displayText = answer;
             apiTextView.setText(displayText);
             Log.d("API 결과와 응답 본문1", displayText);
+            // AlertDialog를 생성하여 "answer"를 확인
+            new AlertDialog.Builder(this)
+                    .setTitle("메뉴 확인")
+                    .setMessage(answer + "를 장바구니에 담으시겠습니까?")
+                    .show();
+
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
