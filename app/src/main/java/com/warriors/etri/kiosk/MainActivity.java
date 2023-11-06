@@ -1,7 +1,10 @@
 package com.warriors.etri.kiosk;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.os.Build;
@@ -20,11 +23,16 @@ import java.util.ArrayList;
 import android.content.Intent;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+
+import org.checkerframework.checker.units.qual.A;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class MainActivity extends AppCompatActivity implements ETRIApiHandler.OnETRIApiResultListener {
@@ -34,12 +42,18 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
     Intent intent;
     SpeechRecognizer mRecognizer;
     final int PERMISSION = 1;
+    private String fullResult = "";
 
     // 파이어 베이스와 연동해서 받아오기
-    private DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-    DatabaseReference orderRef = database.child("chuckchuck/order");
-
-    private String fullResult = "";
+//    private DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+//    DatabaseReference orderRef = database.child("chuckchuck/order");
+    private RecyclerView MenuRecyclerView;
+    private RecyclerView.Adapter MenuAdapter;
+    private RecyclerView.LayoutManager layoutManager;
+    private ArrayList<Menu> MenuArrayList;
+    //파이어베이스 연동하기
+    private FirebaseDatabase database;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +72,36 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
         apiTextView = findViewById(R.id.apiTextView);
         button = findViewById(R.id.startButton);
 
+        MenuRecyclerView = findViewById(R.id.recyclerView);
+        MenuRecyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        MenuRecyclerView.setLayoutManager(layoutManager);
+        MenuArrayList = new ArrayList<>();
+
+        database = FirebaseDatabase.getInstance(); // firebase connection
+        databaseReference = database.getReference("chuckchuck/menu/beverage");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                MenuArrayList.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Menu menu = snapshot.getValue(Menu.class);
+                    MenuArrayList.add(menu);
+                }
+                MenuAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("MainActivity", String.valueOf(error.toException()));
+
+            }
+        });
+
+        MenuAdapter = new MenuAdapter(MenuArrayList, this);
+        MenuRecyclerView.setAdapter(MenuAdapter);
+
+
         // RecognizerIntent 생성
         intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
@@ -70,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
                 mRecognizer = SpeechRecognizer.createSpeechRecognizer(MainActivity.this);
                 mRecognizer.setRecognitionListener(listener);
                 mRecognizer.startListening(intent);
-                writeNewOrder("1", "Americano", 4000, 3);
+//                writeNewOrder("1", "Americano", 4000, 3);
             }
         });
     }
@@ -204,29 +248,6 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
 
     };
 
-    public class Order {
-
-        public String name;
-        public int price;
-        public int count;
-
-        public Order() {
-            // Default constructor required for calls to DataSnapshot.getValue(User.class)
-        }
-
-        public Order(String name, int price, int count) {
-            this.name = name;
-            this.price = price;
-            this.count = count;
-        }
-
-    }
-
-    public void writeNewOrder(String orderId, String name, int price, int count) {
-        Order order = new Order(name, price, count);
-
-        orderRef.child(orderId).setValue(order);
-    }
 
     @Override
     public void onApiResult(String result, String responseBody) {
