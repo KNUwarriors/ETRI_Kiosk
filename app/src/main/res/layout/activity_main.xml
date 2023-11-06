@@ -10,7 +10,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="500px"
+        android:layout_height="370dp"
         />
 
     <TextView
@@ -18,29 +18,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_gravity="center_horizontal" />
 
     <Button
         android:id="@+id/startButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="START"
-        app:layout_constraintBottom_toBottomOf="@id/resultTextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="시작하기"
+        android:layout_gravity="center_horizontal"
+        android:backgroundTint="#0EB0F8"/>
 
     <TextView
         android:id="@+id/apiTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="api result!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/resultTextView" />
+        android:layout_gravity="center_horizontal"/>
 
 </LinearLayout>
