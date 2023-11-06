@@ -22,6 +22,9 @@ import android.content.Intent;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 
 public class MainActivity extends AppCompatActivity implements ETRIApiHandler.OnETRIApiResultListener {
     TextView textView;
@@ -30,6 +33,10 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
     Intent intent;
     SpeechRecognizer mRecognizer;
     final int PERMISSION = 1;
+
+    // 파이어 베이스와 연동해서 받아오기
+    private DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference orderRef = database.child("order");
 
     private String fullResult = "";
 
@@ -62,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
                 mRecognizer = SpeechRecognizer.createSpeechRecognizer(MainActivity.this);
                 mRecognizer.setRecognitionListener(listener);
                 mRecognizer.startListening(intent);
+                orderRef.setValue("Americano");
             }
         });
     }
@@ -166,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
                 }
             };
             // ETRIApiHandler를 통해 API 호출 및 결과 표시
-            ETRIApiHandler.queryETRIApi(fullResult, "아메리카노 한잔 주세요:아메리카노, 라떼 한잔 주세요:라뗴, 녹차라떼 한잔 주세요:녹차라떼, 아이스티 한잔 주세요:아이스티, 자몽에이드 한잔 주세요:자몽에이드, 블루베리스무디 한잔 주세요:블루베리스무디, 초코스무디 한잔 주세요:초코스무디, 카모마일 차 한잔 주세요:카모마일 차, 유자차 한잔 주세요:유자차, 홍차 한잔 주세요:홍차", onETRIApiResultListener);
+            ETRIApiHandler.queryETRIApi(fullResult, "아메리카노 한잔 주세요: 아메리카노, 라떼 한잔 주세요:라뗴, 녹차라떼 한잔 주세요:녹차라떼, 아이스티 한잔 주세요:아이스티, 자몽에이드 한잔 주세요:자몽에이드, 블루베리스무디 한잔 주세요:블루베리스무디, 초코스무디 한잔 주세요:초코스무디, 카모마일 차 한잔 주세요:카모마일 차, 유자차 한잔 주세요:유자차, 홍차 한잔 주세요:홍차", onETRIApiResultListener);
         }
 
         @Override

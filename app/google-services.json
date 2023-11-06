@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "46393532758",
+    "firebase_url": "https://etri-kiosk-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "etri-kiosk",
+    "storage_bucket": "etri-kiosk.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:46393532758:android:81c64b4ef15f227394f6f7",
+        "android_client_info": {
+          "package_name": "com.warriors.etri.kiosk"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaKp9FGfX4fSvEvQ-fdpRigIE53gAFbRA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
