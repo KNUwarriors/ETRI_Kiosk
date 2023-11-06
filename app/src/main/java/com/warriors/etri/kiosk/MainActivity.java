@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
 
     // 파이어 베이스와 연동해서 받아오기
     private DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-    DatabaseReference orderRef = database.child("order");
+    DatabaseReference orderRef = database.child("chuckchuck/order");
 
     private String fullResult = "";
 
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
                 mRecognizer = SpeechRecognizer.createSpeechRecognizer(MainActivity.this);
                 mRecognizer.setRecognitionListener(listener);
                 mRecognizer.startListening(intent);
-                orderRef.setValue("Americano");
+                writeNewOrder("1", "Americano", 4000, 3);
             }
         });
     }
@@ -203,6 +203,30 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
         }
 
     };
+
+    public class Order {
+
+        public String name;
+        public int price;
+        public int count;
+
+        public Order() {
+            // Default constructor required for calls to DataSnapshot.getValue(User.class)
+        }
+
+        public Order(String name, int price, int count) {
+            this.name = name;
+            this.price = price;
+            this.count = count;
+        }
+
+    }
+
+    public void writeNewOrder(String orderId, String name, int price, int count) {
+        Order order = new Order(name, price, count);
+
+        orderRef.child(orderId).setValue(order);
+    }
 
     @Override
     public void onApiResult(String result, String responseBody) {
