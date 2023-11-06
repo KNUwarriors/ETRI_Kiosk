@@ -204,24 +204,6 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
 
     };
 
-    public class Order {
-
-        public String name;
-        public int price;
-        public int count;
-
-        public Order() {
-            // Default constructor required for calls to DataSnapshot.getValue(User.class)
-        }
-
-        public Order(String name, int price, int count) {
-            this.name = name;
-            this.price = price;
-            this.count = count;
-        }
-
-    }
-
     public void writeNewOrder(String orderId, String name, int price, int count) {
         Order order = new Order(name, price, count);
 
@@ -230,29 +212,7 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
 
     @Override
     public void onApiResult(String result, String responseBody) {
-        try {
-            JSONObject responseJSON = new JSONObject(responseBody);
-            JSONObject returnObject = responseJSON.getJSONObject("return_object");
-            JSONObject mrcInfo = returnObject.getJSONObject("MRCInfo");
-            String answer = mrcInfo.getString("answer");
 
-            // "answer" 값을 출력 또는 처리
-            Log.d("Extracted Answer", answer);
-
-            // 필요에 따라 결과를 출력하거나 다른 작업을 수행합니다.
-            String displayText = answer;
-            apiTextView.setText(displayText);
-            Log.d("API 결과와 응답 본문1", displayText);
-            // AlertDialog를 생성하여 "answer"를 확인
-            new AlertDialog.Builder(this)
-                    .setTitle("메뉴 확인")
-                    .setMessage(answer + "를 장바구니에 담으시겠습니까?")
-                    .show();
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
 }
