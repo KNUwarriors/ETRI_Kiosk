@@ -228,6 +228,12 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
                         new AlertDialog.Builder(MainActivity.this, R.style.CustomAlertDialogStyle)
                                 .setTitle("메뉴 확인")
                                 .setMessage(answer + "를 장바구니에 담으시겠습니까?")
+                                .setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Log.d("MyTag", "negative");
+                                    }
+                                })
                                 .setPositiveButton("예", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
@@ -264,12 +270,7 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
                                         });
                                     }
                                 })
-                                .setNegativeButton("아니오", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Log.d("MyTag", "negative");
-                                    }
-                                })
+                                .create()
                                 .show();
                     } catch (JSONException e) {
                         e.printStackTrace();
