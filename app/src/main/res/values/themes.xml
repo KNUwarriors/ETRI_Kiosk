@@ -1,16 +1,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
 
         <item name="windowSplashScreenBackground">@color/white</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/chuck</item>
 
         // Set the theme of the Activity that directly follows your splash screen.
-        <item name="postSplashScreenTheme">@style/Theme.Kiosk</item>  # Required.
+        <item name="postSplashScreenTheme">@style/Theme.Kiosk</item>
+        # Required.
     </style>
 
     <!-- Base application theme. -->
     <style name="Theme.Kiosk" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-<!--        <item name="windowNoTitle">true</item>-->
+        <!--        <item name="windowNoTitle">true</item>-->
         <item name="android:windowFullscreen">true</item>
         <!-- Primary brand color. -->
         <item name="colorPrimary">#5D9DF2</item>
@@ -25,5 +27,39 @@
         <!-- Customize your theme here. -->
 
     </style>
+
+
+    <style name="CustomAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+
+        <!-- 버튼 텍스트 색상 변경 -->
+        <item name="android:textColor">#5D9DF2</item>
+        <!-- 버튼 배경색 변경 -->
+        <item name="android:background">@drawable/custom_dialog_background</item>
+
+        <!-- Positive 버튼 스타일 -->
+        <item name="android:buttonBarPositiveButtonStyle">@style/CustomButtonBarButtonStyle</item>
+
+        <!-- Negative 버튼 스타일 -->
+        <item name="android:buttonBarNegativeButtonStyle">@style/CustomButtonBarButtonStyle</item>
+
+        <!-- 기타 스타일 속성 추가 가능 -->
+    </style>
+
+    <style name="CustomButtonTextStyle">
+        <item name="android:textSize">16sp</item> <!-- 원하는 글자 크기 설정 -->
+        <item name="android:typeface">monospace</item> <!-- 원하는 폰트 설정 -->
+        <!-- 기타 스타일 속성 추가 가능 -->
+    </style>
+
+
+    <style name="CustomButtonBarButtonStyle">
+        <!-- 버튼 텍스트 색상 변경 -->
+        <item name="android:textColor">#5D9DF2</item>
+        <!-- 버튼 배경색 변경 -->
+        <item name="android:background">@color/white</item>
+
+        <item name="android:textAppearance">@style/CustomButtonTextStyle</item>
+    </style>
+
 
 </resources>

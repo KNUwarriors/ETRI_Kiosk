@@ -225,10 +225,10 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
                         apiTextView.setText(displayText);
                         Log.d("API 결과와 응답 본문1", displayText);
                         // ---------------다이얼로그-------------------
-                        new AlertDialog.Builder(MainActivity.this)
+                        new AlertDialog.Builder(MainActivity.this, R.style.CustomAlertDialogStyle)
                                 .setTitle("메뉴 확인")
                                 .setMessage(answer + "를 장바구니에 담으시겠습니까?")
-                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                .setPositiveButton("예", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         Log.d("MyTag", "positive");
@@ -264,7 +264,7 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
                                         });
                                     }
                                 })
-                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                .setNegativeButton("아니오", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         Log.d("MyTag", "negative");
