@@ -248,7 +248,7 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
                                                 orderExist = false;
                                                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                                     orderExistData = snapshot.getValue(Order.class);
-                                                    if (orderExistData.getName().equals(answer)){
+                                                    if (orderExistData.getName() == answer){
                                                         orderExist = true;
                                                         orderIdStr = "" + orderId;
                                                         break;
