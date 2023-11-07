@@ -11,6 +11,7 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="370dp"
+
         />
 
     <TextView
@@ -24,9 +25,9 @@
         android:id="@+id/startButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="시작하기"
         android:layout_gravity="center_horizontal"
-        android:backgroundTint="#0EB0F8"/>
+        android:backgroundTint="#0EB0F8"
+        android:text="시작하기" />
 
     <TextView
         android:id="@+id/apiTextView"
