@@ -60,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
     String orderIdStr = "";
     int orderPrice = 0;
     int orderCount = 0;
+    boolean orderExist = false;
+    Order orderExistData = new Order();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -243,7 +245,17 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                 orderId = 1;
+                                                orderExist = false;
                                                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                                    orderExistData = snapshot.getValue(Order.class);
+                                                    if (orderExistData.getName().equals(answer)){
+                                                        orderExist = true;
+                                                        orderIdStr = "" + orderId;
+                                                        break;
+                                                    }
+                                                    else{
+                                                        orderExist = false;
+                                                    }
                                                     orderId += 1;
                                                 }
                                             }
@@ -253,21 +265,27 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
                                                 Log.e("MainActivity", String.valueOf(error.toException()));
                                             }
                                         });
-                                        beverageDatabase.child(answer).addValueEventListener(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                Menu menu = dataSnapshot.getValue(Menu.class);
-                                                orderPrice = menu.getPrice();
-                                                orderCount = 1;
-                                                orderIdStr = orderId + "";
-                                                writeNewOrder(orderIdStr, answer, orderPrice, orderCount);
-                                            }
+                                        if (!orderExist) {
+                                            beverageDatabase.child(answer).addValueEventListener(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                    Menu menu = dataSnapshot.getValue(Menu.class);
+                                                    orderPrice = menu.getPrice();
+                                                    orderCount = 1;
+                                                    orderIdStr = orderId + "";
+                                                    writeNewOrder(orderIdStr, answer, orderPrice, orderCount);
+                                                }
 
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError error) {
-                                                Log.e("MainActivity", String.valueOf(error.toException()));
-                                            }
-                                        });
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError error) {
+                                                    Log.e("MainActivity", String.valueOf(error.toException()));
+                                                }
+                                            });
+                                        }
+                                        else{
+                                            orderExistData.setCount(orderExistData.getCount() + 1);
+                                            orderDatabase.child(orderIdStr).setValue(orderExistData);
+                                        }
                                     }
                                 })
                                 .create()
