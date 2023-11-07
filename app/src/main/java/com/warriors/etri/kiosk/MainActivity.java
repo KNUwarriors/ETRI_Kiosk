@@ -3,6 +3,7 @@ package com.warriors.etri.kiosk;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.splashscreen.SplashScreen;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -63,6 +64,9 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
+
         setContentView(R.layout.activity_main);
 
         // 안드로이드 6.0버전 이상인지 체크해서 퍼미션 체크
@@ -124,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
             }
         });
     }
+
 
     private RecognitionListener listener = new RecognitionListener() {
         @Override
