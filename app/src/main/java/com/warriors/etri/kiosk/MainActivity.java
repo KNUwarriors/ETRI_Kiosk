@@ -219,6 +219,7 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
                         String displayText = answer;
                         apiTextView.setText(displayText);
                         Log.d("API 결과와 응답 본문1", displayText);
+                        // ---------------다이얼로그-------------------
                         new AlertDialog.Builder(MainActivity.this)
                                 .setTitle("메뉴 확인")
                                 .setMessage(answer + "를 장바구니에 담으시겠습니까?")
