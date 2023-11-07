@@ -240,55 +240,7 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         Log.e("MyTag", "positive");
-                                        orderExist = false;
-                                        orderDatabase.addValueEventListener(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                orderId = 1;
-                                                orderExist = false;
-                                                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                                    orderExistData = snapshot.getValue(Order.class);
-                                                    if (orderExistData.getName() == answer){
-                                                        orderExist = true;
-                                                        orderIdStr = "" + orderId;
-                                                        break;
-                                                    }
-//                                                    else{
-//                                                        orderExist = false;
-//                                                    }
-                                                    orderId += 1;
-                                                }
-                                            }
-
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError error) {
-                                                Log.e("MainActivity", String.valueOf(error.toException()));
-                                            }
-                                        });
-                                        if (!orderExist) {
-                                            Log.e("!orderExist",answer);
-                                            beverageDatabase.child(answer).addListenerForSingleValueEvent(new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                    Menu menu = dataSnapshot.getValue(Menu.class);
-                                                    orderPrice = menu.getPrice();
-                                                    orderCount = 1;
-                                                    orderIdStr = orderId + "";
-                                                    writeNewOrder(orderIdStr, answer, orderPrice, orderCount);
-                                                }
-
-                                                @Override
-                                                public void onCancelled(@NonNull DatabaseError error) {
-                                                    Log.e("MainActivity", String.valueOf(error.toException()));
-                                                }
-                                            });
-                                        }
-                                        else{
-                                            Log.e("Else about !orderExist",answer);
-                                            orderExistData.setCount(orderExistData.getCount() + 1);
-                                            orderDatabase.child(orderIdStr).setValue(orderExistData);
-                                            orderExist = false;
-                                        }
+                                        handleOrderConfirmation(answer);
                                     }
                                 })
                                 .create()
@@ -301,7 +253,57 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
             // ETRIApiHandler를 통해 API 호출 및 결과 표시
             ETRIApiHandler.queryETRIApi(fullResult, "'녹차라떼 한잔 주세요' : '녹차라떼' , '딸기스무디 한잔 주세요' : '딸기스무디' , '레몬에이드 한잔 주세요' : '레몬에이드' , '망고스무디 한잔 주세요' : '망고스무디' , '밀크티 한잔 주세요' : '밀크티' , '아메리카노 한잔 주세요' : '아메리카노' , '자몽에이드 한잔 주세요' : '자몽에이드' , '초코라떼 한잔 주세요' : '초코라떼' , '카페라떼 한잔 주세요' : '카페라떼'", onETRIApiResultListener);
         }
+        private void handleOrderConfirmation(String answer) {
+            // 주문 데이터베이스를 한 번만 확인
+            orderDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    orderId = 1;
+                    orderExist = false;
 
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        orderExistData = snapshot.getValue(Order.class);
+                        if (orderExistData.getName().equals(answer)) {
+                            orderExist = true;
+                            orderIdStr = "" + orderId;
+                            Log.e("order is in orderlist!", String.valueOf(orderExist));
+                            break;
+                        }
+                        orderId += 1;
+                    }
+
+                    if (!orderExist) {
+                        Log.e("!orderExist", orderExist + answer);
+                        // 주문이 없는 경우, 메뉴 데이터베이스에서 가격을 가져와서 새로운 주문을 추가
+                        beverageDatabase.child(answer).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                Menu menu = dataSnapshot.getValue(Menu.class);
+                                orderPrice = menu.getPrice();
+                                orderCount = 1;
+                                orderIdStr = orderId + "";
+                                writeNewOrder(orderIdStr, answer, orderPrice, orderCount);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Log.e("MainActivity", String.valueOf(error.toException()));
+                            }
+                        });
+                    } else {
+                        Log.e("Else about !orderExist", orderExist + answer);
+                        // 주문이 이미 있는 경우, 주문을 업데이트
+                        orderExistData.setCount(orderExistData.getCount() + 1);
+                        orderDatabase.child(orderIdStr).setValue(orderExistData);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.e("MainActivity", String.valueOf(error.toException()));
+                }
+            });
+        }
 
         @Override
         public void onPartialResults(Bundle partialResults) {
