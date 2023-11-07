@@ -25,7 +25,6 @@ import android.content.Intent;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 
-import org.checkerframework.checker.units.qual.A;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -54,7 +53,13 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
     private ArrayList<Menu> MenuArrayList;
     //파이어베이스 연동하기
     private FirebaseDatabase database;
-    private DatabaseReference databaseReference;
+    private DatabaseReference beverageDatabase;
+    private DatabaseReference orderDatabase;
+
+    int orderId = 0;
+    String orderIdStr = "";
+    int orderPrice = 0;
+    int orderCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,8 +88,10 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
         MenuArrayList = new ArrayList<>();
 
         database = FirebaseDatabase.getInstance(); // firebase connection
-        databaseReference = database.getReference("chuckchuck/menu/beverage");
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        beverageDatabase = database.getReference("chuckchuck/menu/beverage");
+        orderDatabase = database.getReference("chuckchuck/order");
+
+        beverageDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 MenuArrayList.clear();
@@ -118,7 +125,6 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
                 mRecognizer = SpeechRecognizer.createSpeechRecognizer(MainActivity.this);
                 mRecognizer.setRecognitionListener(listener);
                 mRecognizer.startListening(intent);
-//                writeNewOrder("1", "Americano", 4000, 3);
             }
         });
     }
@@ -225,6 +231,36 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         Log.d("MyTag", "positive");
+
+                                        orderDatabase.addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                orderId = 1;
+                                                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                                    orderId += 1;
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+                                                Log.e("MainActivity", String.valueOf(error.toException()));
+                                            }
+                                        });
+                                        beverageDatabase.child(answer).addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                Menu menu = dataSnapshot.getValue(Menu.class);
+                                                orderPrice = menu.getPrice();
+                                                orderCount = 1;
+                                                orderIdStr = orderId + "";
+                                                writeNewOrder(orderIdStr, answer, orderPrice, orderCount);
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+                                                Log.e("MainActivity", String.valueOf(error.toException()));
+                                            }
+                                        });
                                     }
                                 })
                                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -240,8 +276,9 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
                 }
             };
             // ETRIApiHandler를 통해 API 호출 및 결과 표시
-            ETRIApiHandler.queryETRIApi(fullResult, "아메리카노 한잔 주세요: 아메리카노, 라떼 한잔 주세요:라뗴, 녹차라떼 한잔 주세요:녹차라떼, 아이스티 한잔 주세요:아이스티, 자몽에이드 한잔 주세요:자몽에이드, 블루베리스무디 한잔 주세요:블루베리스무디, 초코스무디 한잔 주세요:초코스무디, 카모마일 차 한잔 주세요:카모마일 차, 유자차 한잔 주세요:유자차, 홍차 한잔 주세요:홍차", onETRIApiResultListener);
+            ETRIApiHandler.queryETRIApi(fullResult, "'녹차라떼 한잔 주세요' : '녹차라떼' , '딸기스무디 한잔 주세요' : '딸기스무디' , '레몬에이드 한잔 주세요' : '레몬에이드' , '망고스무디 한잔 주세요' : '망고스무디' , '밀크티 한잔 주세요' : '밀크티' , '아메리카노 한잔 주세요' : '아메리카노' , '자몽에이드 한잔 주세요' : '자몽에이드' , '초코라떼 한잔 주세요' : '초코라떼' , '카페라떼 한잔 주세요' : '카페라떼'", onETRIApiResultListener);
         }
+
 
         @Override
         public void onPartialResults(Bundle partialResults) {
@@ -253,32 +290,15 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
 
     };
 
+    public void writeNewOrder(String orderId, String name, int price, int count) {
+        Order order = new Order(name, price, count);
+
+        orderDatabase.child(orderId).setValue(order);
+    }
 
     @Override
     public void onApiResult(String result, String responseBody) {
-        try {
-            JSONObject responseJSON = new JSONObject(responseBody);
-            JSONObject returnObject = responseJSON.getJSONObject("return_object");
-            JSONObject mrcInfo = returnObject.getJSONObject("MRCInfo");
-            String answer = mrcInfo.getString("answer");
 
-            // "answer" 값을 출력 또는 처리
-            Log.d("Extracted Answer", answer);
-
-            // 필요에 따라 결과를 출력하거나 다른 작업을 수행합니다.
-            String displayText = answer;
-            apiTextView.setText(displayText);
-            Log.d("API 결과와 응답 본문1", displayText);
-            // AlertDialog를 생성하여 "answer"를 확인
-            new AlertDialog.Builder(this)
-                    .setTitle("메뉴 확인")
-                    .setMessage(answer + "를 장바구니에 담으시겠습니까?")
-                    .show();
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
 }

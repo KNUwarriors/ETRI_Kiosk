@@ -10,8 +10,10 @@
 
     <!-- Base application theme. -->
     <style name="Theme.Kiosk" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+<!--        <item name="windowNoTitle">true</item>-->
+        <item name="android:windowFullscreen">true</item>
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimary">#5D9DF2</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
@@ -21,5 +23,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+
     </style>
+
 </resources>
