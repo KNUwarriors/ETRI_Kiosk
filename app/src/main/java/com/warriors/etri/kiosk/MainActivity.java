@@ -239,8 +239,8 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
                                 .setPositiveButton("예", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        Log.d("MyTag", "positive");
-
+                                        Log.e("MyTag", "positive");
+                                        orderExist = false;
                                         orderDatabase.addValueEventListener(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -253,9 +253,9 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
                                                         orderIdStr = "" + orderId;
                                                         break;
                                                     }
-                                                    else{
-                                                        orderExist = false;
-                                                    }
+//                                                    else{
+//                                                        orderExist = false;
+//                                                    }
                                                     orderId += 1;
                                                 }
                                             }
@@ -266,7 +266,8 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
                                             }
                                         });
                                         if (!orderExist) {
-                                            beverageDatabase.child(answer).addValueEventListener(new ValueEventListener() {
+                                            Log.e("!orderExist",answer);
+                                            beverageDatabase.child(answer).addListenerForSingleValueEvent(new ValueEventListener() {
                                                 @Override
                                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                     Menu menu = dataSnapshot.getValue(Menu.class);
@@ -283,8 +284,10 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
                                             });
                                         }
                                         else{
+                                            Log.e("Else about !orderExist",answer);
                                             orderExistData.setCount(orderExistData.getCount() + 1);
                                             orderDatabase.child(orderIdStr).setValue(orderExistData);
+                                            orderExist = false;
                                         }
                                     }
                                 })
