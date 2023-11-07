@@ -10,9 +10,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="370dp"
-
-        />
+        android:layout_height="370dp" />
 
     <TextView
         android:id="@+id/resultTextView"
@@ -26,7 +24,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:backgroundTint="#0EB0F8"
+        android:backgroundTint="@color/white"
+        android:textColor="#5D9DF2"
+        android:fontFamily="@font/nexon2_bold"
+        android:textSize="18dp"
+        android:layout_margin="10dp"
+        android:paddingHorizontal="20dp"
         android:text="시작하기" />
 
     <TextView
@@ -35,5 +38,28 @@
         android:layout_height="wrap_content"
         android:text="api result!"
         android:layout_gravity="center_horizontal"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/orderRecyclerView"
+            android:layout_width="300dp"
+            android:layout_height="200dp" />
+
+        <Button
+            android:id="@+id/payButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/white"
+            android:textColor="#5D9DF2"
+            android:fontFamily="@font/nexon2_bold"
+            android:textSize="18dp"
+            android:layout_margin="10dp"
+            android:text="결제하기"/>
+
+    </LinearLayout>
 
 </LinearLayout>
