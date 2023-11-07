@@ -271,8 +271,9 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
                 }
             };
             // ETRIApiHandler를 통해 API 호출 및 결과 표시
-            ETRIApiHandler.queryETRIApi(fullResult, "녹차라떼 한잔 주세요:녹차라떼, 딸기스무디 한잔 주세요:딸기스무디, 레몬에이드 한잔 주세요:레몬에이드, 망고스무디 한잔 주세요:망고스무디, 밀크티 한잔 주세요:밀크티, 아메리카노 한잔 주세요: 아메리카노, 자몽에이드 한잔 주세요:자몽에이드, 초코라떼 한잔 주세요:초코라떼, 카페라떼 한잔 주세요:카페라떼", onETRIApiResultListener);
+            ETRIApiHandler.queryETRIApi(fullResult, "'녹차라떼 한잔 주세요' : '녹차라떼' , '딸기스무디 한잔 주세요' : '딸기스무디' , '레몬에이드 한잔 주세요' : '레몬에이드' , '망고스무디 한잔 주세요' : '망고스무디' , '밀크티 한잔 주세요' : '밀크티' , '아메리카노 한잔 주세요' : '아메리카노' , '자몽에이드 한잔 주세요' : '자몽에이드' , '초코라떼 한잔 주세요' : '초코라떼' , '카페라떼 한잔 주세요' : '카페라떼'", onETRIApiResultListener);
         }
+
 
         @Override
         public void onPartialResults(Bundle partialResults) {
