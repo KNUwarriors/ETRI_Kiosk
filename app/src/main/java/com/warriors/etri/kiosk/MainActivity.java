@@ -37,7 +37,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity implements ETRIApiHandler.OnETRIApiResultListener {
     TextView textView;
-    TextView apiTextView;
+
     Button button;
     Intent intent;
     SpeechRecognizer mRecognizer;
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
         }
 
         textView = findViewById(R.id.resultTextView);
-        apiTextView = findViewById(R.id.apiTextView);
+
         button = findViewById(R.id.startButton);
         // menu
         MenuRecyclerView = findViewById(R.id.recyclerView);
@@ -254,7 +254,7 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
 
                         // 필요에 따라 결과를 출력하거나 다른 작업을 수행합니다.
                         String displayText = answer;
-                        apiTextView.setText(displayText);
+
                         Log.d("API 결과와 응답 본문1", displayText);
                         // ---------------다이얼로그-------------------
                         new AlertDialog.Builder(MainActivity.this, R.style.CustomAlertDialogStyle)
