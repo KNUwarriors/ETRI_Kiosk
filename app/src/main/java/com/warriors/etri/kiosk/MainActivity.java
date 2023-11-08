@@ -139,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
                     totalPrice += order.getPrice() * order.getCount();
                 }
                 OrderAdapter.notifyDataSetChanged();
+                payButton.setText(totalPrice + "원\n\n결제하기");
             }
 
             @Override
@@ -386,6 +387,7 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
                     totalPrice += order.getPrice() * order.getCount();
                 }
                 OrderAdapter.notifyDataSetChanged();
+                payButton.setText(totalPrice + "원\n\n결제하기");
             }
 
             @Override

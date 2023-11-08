@@ -42,7 +42,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/orderRecyclerView"
-            android:layout_width="280dp"
+            android:layout_width="250dp"
             android:layout_height="match_parent"
             android:layout_margin="10dp"/>
 
@@ -52,9 +52,10 @@
             android:layout_height="match_parent"
             android:backgroundTint="@color/white"
             android:fontFamily="@font/nexon2_bold"
-            android:text="결제\n하기"
+            android:text="결제하기"
             android:textColor="#5D9DF2"
-            android:textSize="18dp" />
+            android:textSize="18dp"
+            android:layout_margin="3dp" />
 
     </LinearLayout>
 
