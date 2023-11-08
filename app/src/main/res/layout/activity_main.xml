@@ -17,6 +17,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="원하시는 메뉴를 말씀해 주세요."
+        android:textSize="18dp"
+        android:layout_margin="5dp"
         android:layout_gravity="center_horizontal" />
 
     <Button
@@ -28,31 +30,32 @@
         android:textColor="#5D9DF2"
         android:fontFamily="@font/nexon2_bold"
         android:textSize="18dp"
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         android:paddingHorizontal="20dp"
         android:text="시작하기" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:layout_margin="12dp">
+        android:layout_margin="10dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/orderRecyclerView"
-            android:layout_width="300dp"
-            android:layout_height="match_parent" />
+            android:layout_width="250dp"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"/>
 
         <Button
             android:id="@+id/payButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
             android:backgroundTint="@color/white"
             android:fontFamily="@font/nexon2_bold"
-            android:text="결제\n하기"
+            android:text="결제하기"
             android:textColor="#5D9DF2"
-            android:textSize="18dp" />
+            android:textSize="18dp"
+            android:layout_margin="3dp" />
 
     </LinearLayout>
 
