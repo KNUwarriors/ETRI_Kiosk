@@ -6,61 +6,38 @@
 
     <TextView
         android:id="@+id/name"
-<<<<<<< HEAD
         android:layout_width="100dp"
-=======
-        android:layout_width="120dp"
->>>>>>> de32a64ecfb25529ed3b515b8d0111857142aedf
         android:layout_height="wrap_content"
-        android:layout_margin="1dp"
         android:text="name"
         android:textSize="20dp"/>
 
     <TextView
         android:id="@+id/price"
-<<<<<<< HEAD
         android:layout_width="70dp"
-=======
-        android:layout_width="55dp"
->>>>>>> de32a64ecfb25529ed3b515b8d0111857142aedf
         android:layout_height="wrap_content"
-        android:layout_margin="1dp"
         android:text="price"
         android:textSize="20dp"/>
 
     <TextView
-<<<<<<< HEAD
         android:id="@+id/count"
         android:layout_width="30dp"
-=======
-        android:layout_width="40dp"
->>>>>>> de32a64ecfb25529ed3b515b8d0111857142aedf
         android:layout_height="wrap_content"
-        android:layout_margin="1dp"
-        android:text="원"
-        android:textSize="20dp"/>
-
-    <TextView
-        android:id="@+id/count"
-        android:layout_width="20dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="1dp"
         android:text="count"
         android:textSize="20dp"/>
 
     <Button
         android:id="@+id/increaseButton"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="+"
-        android:backgroundTint="@color/teal_700"
+        android:backgroundTint="@color/black"
         />
 
     <Button
         android:id="@+id/decreaseButton"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="-"
-        android:backgroundTint="@color/teal_700"
+        android:backgroundTint="@color/black"
         />
 </LinearLayout>
