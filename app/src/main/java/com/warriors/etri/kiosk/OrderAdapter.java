@@ -28,9 +28,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     }
 
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position){
-        holder.name.setText(arrayList.get(position).getName());
-        holder.price.setText(arrayList.get(position).getPrice());
-        holder.count.setText(arrayList.get(position).getCount());
+        holder.name.setText(String.valueOf(arrayList.get(position).getName()));
+        holder.price.setText(String.valueOf(arrayList.get(position).getPrice()));
+        holder.count.setText(String.valueOf(arrayList.get(position).getCount()));
     }
 
     public int getItemCount(){
