@@ -53,12 +53,12 @@
             android:id="@+id/payButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:backgroundTint="@color/white"
-            android:textColor="#5D9DF2"
-            android:fontFamily="@font/nexon2_bold"
-            android:textSize="18dp"
             android:layout_margin="10dp"
-            android:text="결제하기"/>
+            android:backgroundTint="@color/white"
+            android:fontFamily="@font/nexon2_bold"
+            android:text="결제\n하기"
+            android:textColor="#5D9DF2"
+            android:textSize="18dp" />
 
     </LinearLayout>
 
