@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
     TextView textView;
 
     Button button;
+    Button payButton;
     Intent intent;
     SpeechRecognizer mRecognizer;
     final int PERMISSION = 1;
@@ -85,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
         textView = findViewById(R.id.resultTextView);
 
         button = findViewById(R.id.startButton);
+        payButton = findViewById(R.id.payButton);
         // menu
         MenuRecyclerView = findViewById(R.id.recyclerView);
         MenuRecyclerView.setHasFixedSize(true);
@@ -157,6 +159,14 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
                 mRecognizer = SpeechRecognizer.createSpeechRecognizer(MainActivity.this);
                 mRecognizer.setRecognitionListener(listener);
                 mRecognizer.startListening(intent);
+            }
+        });
+
+        payButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                orderDatabase.removeValue();
+                OrderAdapter.notifyDataSetChanged();
             }
         });
     }
