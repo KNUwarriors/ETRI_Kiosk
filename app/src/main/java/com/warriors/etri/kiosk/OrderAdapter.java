@@ -2,7 +2,11 @@ package com.warriors.etri.kiosk;
 
 
 
+import static com.warriors.etri.kiosk.MainActivity.payButton;
+import static com.warriors.etri.kiosk.MainActivity.totalPrice;
+
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +19,11 @@ import java.util.ArrayList;
 
 import android.widget.Button; // 추가
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
@@ -56,6 +63,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
                 currentOrder.setCount(currentOrder.getCount() + 1);
                 notifyDataSetChanged(); // 어댑터를 업데이트하여 변경된 내용을 반영
                 orderDatabase.child(orderIdStr).setValue(currentOrder);
+                totalPrice += currentOrder.getPrice();
+                payButton.setText(totalPrice + "원\n\n결제하기");
             }
         });
 
@@ -73,6 +82,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
                     currentOrder.setCount(newCount);
                     notifyDataSetChanged(); // 어댑터를 업데이트하여 변경된 내용을 반영
                     orderDatabase.child(orderIdStr).setValue(currentOrder);
+                    totalPrice -= currentOrder.getPrice();
+                    payButton.setText(totalPrice + "원\n\n결제하기");
                 }
             }
         });

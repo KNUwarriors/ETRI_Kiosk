@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
     TextView textView;
 
     Button button;
-    Button payButton;
+    static Button payButton;
     Intent intent;
     SpeechRecognizer mRecognizer;
     final int PERMISSION = 1;
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
     int orderCount = 0;
     boolean orderExist = false;
     Order orderExistData = new Order();
-    int totalPrice = 0;
+    static int totalPrice = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
