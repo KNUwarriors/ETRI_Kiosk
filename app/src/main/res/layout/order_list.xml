@@ -9,35 +9,46 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:text="name"
-        android:textSize="20dp"/>
+        android:textSize="18dp"/>
 
     <TextView
         android:id="@+id/price"
-        android:layout_width="70dp"
+        android:layout_width="52dp"
         android:layout_height="wrap_content"
         android:text="price"
-        android:textSize="20dp"/>
+        android:textSize="18dp"/>
+
+    <TextView
+        android:layout_width="21dp"
+        android:layout_height="wrap_content"
+        android:text="원"
+        android:textSize="18dp"/>
 
     <TextView
         android:id="@+id/count"
-        android:layout_width="30dp"
+        android:layout_width="19dp"
         android:layout_height="wrap_content"
         android:text="count"
-        android:textSize="20dp"/>
+        android:textSize="18dp"/>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/increaseButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:text="+"
-        android:backgroundTint="@color/black"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:backgroundTint="#5D9DF2"
         />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/decreaseButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:text="-"
-        android:backgroundTint="@color/black"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:backgroundTint="#5D9DF2"
         />
+
 </LinearLayout>

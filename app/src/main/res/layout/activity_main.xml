@@ -38,13 +38,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:layout_margin="10dp">
+        android:layout_margin="5dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/orderRecyclerView"
-            android:layout_width="250dp"
+            android:layout_width="260dp"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"/>
+            android:layout_margin="3dp"/>
 
         <Button
             android:id="@+id/payButton"
