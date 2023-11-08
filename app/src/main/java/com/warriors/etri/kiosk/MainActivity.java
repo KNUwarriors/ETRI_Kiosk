@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
     int orderCount = 0;
     boolean orderExist = false;
     Order orderExistData = new Order();
+    int totalPrice = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,9 +132,11 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 OrderArrayList.clear();
+                totalPrice = 0;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Order order = snapshot.getValue(Order.class);
                     OrderArrayList.add(order);
+                    totalPrice += order.getPrice() * order.getCount();
                 }
                 OrderAdapter.notifyDataSetChanged();
             }
@@ -167,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
             public void onClick(View v) {
                 new AlertDialog.Builder(MainActivity.this, R.style.CustomAlertDialogStyle)
                         .setTitle("결제 확인")
-                        .setMessage("얼마 결제하였습니다.").show();
+                        .setMessage(totalPrice + "원 결제하였습니다.").show();
                 orderDatabase.removeValue();
                 OrderAdapter.notifyDataSetChanged();
                 refreshOrderList();
@@ -376,9 +379,11 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 OrderArrayList.clear();
+                totalPrice = 0;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Order order = snapshot.getValue(Order.class);
                     OrderArrayList.add(order);
+                    totalPrice += order.getPrice() * order.getCount();
                 }
                 OrderAdapter.notifyDataSetChanged();
             }
