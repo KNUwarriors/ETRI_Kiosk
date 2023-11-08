@@ -24,28 +24,28 @@
         android:text="원"
         android:textSize="18dp"/>
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/decreaseButton"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:backgroundTint="#5D9DF2"
+        android:text="-"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
     <TextView
         android:id="@+id/count"
         android:layout_width="19dp"
         android:layout_height="wrap_content"
         android:text="count"
-        android:textSize="18dp"/>
+        android:textSize="18dp"
+        android:gravity="center" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/increaseButton"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:text="+"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:backgroundTint="#5D9DF2"
-        />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/decreaseButton"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:text="-"
         android:textStyle="bold"
         android:textColor="@color/white"
         android:backgroundTint="#5D9DF2"
