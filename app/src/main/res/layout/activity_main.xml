@@ -48,7 +48,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/orderRecyclerView"
             android:layout_width="300dp"
-            android:layout_height="200dp" />
+            android:layout_height="match_parent" />
 
         <Button
             android:id="@+id/payButton"
