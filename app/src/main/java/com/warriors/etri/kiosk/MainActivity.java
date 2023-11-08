@@ -44,13 +44,16 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
     final int PERMISSION = 1;
     private String fullResult = "";
 
-    // 파이어 베이스와 연동해서 받아오기
-//    private DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-//    DatabaseReference orderRef = database.child("chuckchuck/order");
+    // menu view
     private RecyclerView MenuRecyclerView;
     private RecyclerView.Adapter MenuAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList<Menu> MenuArrayList;
+    // order view
+    private RecyclerView OrderRecyclerView;
+    private RecyclerView.Adapter OrderAdapter;
+    private RecyclerView.LayoutManager orderlayoutManager;
+    private ArrayList<Order> OrderArrayList;
     //파이어베이스 연동하기
     private FirebaseDatabase database;
     private DatabaseReference beverageDatabase;
@@ -82,17 +85,24 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
         textView = findViewById(R.id.resultTextView);
 
         button = findViewById(R.id.startButton);
-
+        // menu
         MenuRecyclerView = findViewById(R.id.recyclerView);
         MenuRecyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         MenuRecyclerView.setLayoutManager(layoutManager);
         MenuArrayList = new ArrayList<>();
-
+        // order
+        OrderRecyclerView = findViewById(R.id.orderRecyclerView);
+        OrderRecyclerView.setHasFixedSize(true);
+        orderlayoutManager = new LinearLayoutManager(this);
+        OrderRecyclerView.setLayoutManager(orderlayoutManager);
+        OrderArrayList = new ArrayList<>();
+        // DB
         database = FirebaseDatabase.getInstance(); // firebase connection
         beverageDatabase = database.getReference("chuckchuck/menu/beverage");
         orderDatabase = database.getReference("chuckchuck/order");
 
+        // menu connection
         beverageDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -106,13 +116,33 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("MainActivity", String.valueOf(error.toException()));
+                Log.e("MainActivity Menu", String.valueOf(error.toException()));
 
             }
         });
 
         MenuAdapter = new MenuAdapter(MenuArrayList, this);
         MenuRecyclerView.setAdapter(MenuAdapter);
+
+        // order connection
+        orderDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                OrderArrayList.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Order order = snapshot.getValue(Order.class);
+                    OrderArrayList.add(order);
+                }
+                OrderAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("MainActivity Order", String.valueOf(error.toException()));
+            }
+        });
+        OrderAdapter = new OrderAdapter(OrderArrayList, this);
+        OrderRecyclerView.setAdapter(OrderAdapter);
 
 
         // RecognizerIntent 생성
@@ -253,6 +283,7 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
             // ETRIApiHandler를 통해 API 호출 및 결과 표시
             ETRIApiHandler.queryETRIApi(fullResult, "'녹차라떼 한잔 주세요' : '녹차라떼' , '딸기스무디 한잔 주세요' : '딸기스무디' , '레몬에이드 한잔 주세요' : '레몬에이드' , '망고스무디 한잔 주세요' : '망고스무디' , '밀크티 한잔 주세요' : '밀크티' , '아메리카노 한잔 주세요' : '아메리카노' , '자몽에이드 한잔 주세요' : '자몽에이드' , '초코라떼 한잔 주세요' : '초코라떼' , '카페라떼 한잔 주세요' : '카페라떼'", onETRIApiResultListener);
         }
+
         private void handleOrderConfirmation(String answer) {
             // 주문 데이터베이스를 한 번만 확인
             orderDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -283,6 +314,8 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
                                 orderCount = 1;
                                 orderIdStr = orderId + "";
                                 writeNewOrder(orderIdStr, answer, orderPrice, orderCount);
+
+                                refreshOrderList();
                             }
 
                             @Override
@@ -295,12 +328,34 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
                         // 주문이 이미 있는 경우, 주문을 업데이트
                         orderExistData.setCount(orderExistData.getCount() + 1);
                         orderDatabase.child(orderIdStr).setValue(orderExistData);
+
+                        refreshOrderList();
                     }
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
                     Log.e("MainActivity", String.valueOf(error.toException()));
+                }
+            });
+        }
+
+        // 주문 목록을 업데이트하는 함수
+        private void refreshOrderList() {
+            orderDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    OrderArrayList.clear();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Order order = snapshot.getValue(Order.class);
+                        OrderArrayList.add(order);
+                    }
+                    OrderAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.e("MainActivity Order", String.valueOf(error.toException()));
                 }
             });
         }
