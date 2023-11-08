@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
     TextView textView;
 
     Button button;
+    Button payButton;
     Intent intent;
     SpeechRecognizer mRecognizer;
     final int PERMISSION = 1;
@@ -85,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
         textView = findViewById(R.id.resultTextView);
 
         button = findViewById(R.id.startButton);
+        payButton = findViewById(R.id.payButton);
         // menu
         MenuRecyclerView = findViewById(R.id.recyclerView);
         MenuRecyclerView.setHasFixedSize(true);
@@ -157,6 +159,18 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
                 mRecognizer = SpeechRecognizer.createSpeechRecognizer(MainActivity.this);
                 mRecognizer.setRecognitionListener(listener);
                 mRecognizer.startListening(intent);
+            }
+        });
+
+        payButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(MainActivity.this, R.style.CustomAlertDialogStyle)
+                        .setTitle("결제 확인")
+                        .setMessage("얼마 결제하였습니다.").show();
+                orderDatabase.removeValue();
+                OrderAdapter.notifyDataSetChanged();
+                refreshOrderList();
             }
         });
     }
@@ -340,26 +354,6 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
             });
         }
 
-        // 주문 목록을 업데이트하는 함수
-        private void refreshOrderList() {
-            orderDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    OrderArrayList.clear();
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        Order order = snapshot.getValue(Order.class);
-                        OrderArrayList.add(order);
-                    }
-                    OrderAdapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    Log.e("MainActivity Order", String.valueOf(error.toException()));
-                }
-            });
-        }
-
         @Override
         public void onPartialResults(Bundle partialResults) {
         }
@@ -374,6 +368,26 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
         Order order = new Order(name, price, count);
 
         orderDatabase.child(orderId).setValue(order);
+    }
+
+    // 주문 목록을 업데이트하는 함수
+    private void refreshOrderList() {
+        orderDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                OrderArrayList.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Order order = snapshot.getValue(Order.class);
+                    OrderArrayList.add(order);
+                }
+                OrderAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("MainActivity Order", String.valueOf(error.toException()));
+            }
+        });
     }
 
     @Override
