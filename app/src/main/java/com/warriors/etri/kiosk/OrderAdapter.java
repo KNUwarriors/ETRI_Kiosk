@@ -15,9 +15,16 @@ import java.util.ArrayList;
 
 import android.widget.Button; // 추가
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
     private ArrayList<Order> arrayList;
     private Context context;
+
+    private FirebaseDatabase database;
+    private DatabaseReference orderDatabase;
 
     public OrderAdapter(ArrayList<Order> arrayList, Context context) {
         this.arrayList = arrayList;
@@ -40,22 +47,32 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         holder.increaseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                database = FirebaseDatabase.getInstance();
+                orderDatabase = database.getReference("chuckchuck/order");
                 int currentPosition = holder.getAdapterPosition();
                 Order currentOrder = arrayList.get(currentPosition);
+                int orderId = currentPosition + 1;
+                String orderIdStr = "" + orderId;
                 currentOrder.setCount(currentOrder.getCount() + 1);
                 notifyDataSetChanged(); // 어댑터를 업데이트하여 변경된 내용을 반영
+                orderDatabase.child(orderIdStr).setValue(currentOrder);
             }
         });
 
         holder.decreaseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                database = FirebaseDatabase.getInstance();
+                orderDatabase = database.getReference("chuckchuck/order");
                 int currentPosition = holder.getAdapterPosition();
                 Order currentOrder = arrayList.get(currentPosition);
+                int orderId = currentPosition + 1;
+                String orderIdStr = "" + orderId;
                 int newCount = currentOrder.getCount() - 1;
                 if (newCount >= 0) {
                     currentOrder.setCount(newCount);
                     notifyDataSetChanged(); // 어댑터를 업데이트하여 변경된 내용을 반영
+                    orderDatabase.child(orderIdStr).setValue(currentOrder);
                 }
             }
         });
