@@ -34,7 +34,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-
 public class MainActivity extends AppCompatActivity implements ETRIApiHandler.OnETRIApiResultListener {
     TextView textView;
 
@@ -146,7 +145,6 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
         OrderAdapter = new OrderAdapter(OrderArrayList, this);
         OrderRecyclerView.setAdapter(OrderAdapter);
 
-
         // RecognizerIntent 생성
         intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
@@ -174,7 +172,6 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
             }
         });
     }
-
 
     private RecognitionListener listener = new RecognitionListener() {
         @Override
@@ -394,5 +391,4 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
     public void onApiResult(String result, String responseBody) {
 
     }
-
 }

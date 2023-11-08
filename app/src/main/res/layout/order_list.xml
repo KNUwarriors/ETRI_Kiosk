@@ -6,24 +6,38 @@
 
     <TextView
         android:id="@+id/name"
-        android:layout_width="150dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:text="name"
         android:textSize="20dp"/>
 
     <TextView
         android:id="@+id/price"
-        android:layout_width="100dp"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:text="price"
         android:textSize="20dp"/>
 
     <TextView
         android:id="@+id/count"
-        android:layout_width="50dp"
+        android:layout_width="30dp"
         android:layout_height="wrap_content"
         android:text="count"
         android:textSize="20dp"/>
 
+    <Button
+        android:id="@+id/increaseButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="+"
+        android:backgroundTint="@color/teal_700"
+        />
 
+    <Button
+        android:id="@+id/decreaseButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="-"
+        android:backgroundTint="@color/teal_700"
+        />
 </LinearLayout>
