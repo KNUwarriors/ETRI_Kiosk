@@ -6,22 +6,32 @@
 
     <TextView
         android:id="@+id/name"
-        android:layout_width="150dp"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
+        android:layout_margin="1dp"
         android:text="name"
         android:textSize="20dp"/>
 
     <TextView
         android:id="@+id/price"
-        android:layout_width="100dp"
+        android:layout_width="55dp"
         android:layout_height="wrap_content"
+        android:layout_margin="1dp"
         android:text="price"
         android:textSize="20dp"/>
 
     <TextView
-        android:id="@+id/count"
-        android:layout_width="50dp"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
+        android:layout_margin="1dp"
+        android:text="원"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:id="@+id/count"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="1dp"
         android:text="count"
         android:textSize="20dp"/>
 
