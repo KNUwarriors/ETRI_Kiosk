@@ -184,7 +184,7 @@ public class BottomSheetHandler {
 
                                         displayText = "<"+ answer + ">를 주문하시겠습니까?\n";
                                         drawer_question.setText(displayText);
-                                        yn_text.setText("(네 또는 아니오)");
+                                        yn_text.setText("(예 또는 아니오)");
                                         //drawer_question.setTextColor(Color.parseColor("#FE9A2E"));
 
 
@@ -253,7 +253,7 @@ public class BottomSheetHandler {
                                 }
                             };
 
-                            ETRIApiHandler.queryETRIApi(fullResult, "'네' : '1' , '아니오': '0'", onETRIApiResultListener);
+                            ETRIApiHandler.queryETRIApi(fullResult, "'예' : '1' , '아니오': '0'", onETRIApiResultListener);
                             drawer_result.setText(fullResult);
                             // Handle unsuccessful response for order_in = 1
                             // Reset to the initial state and increase cnt
