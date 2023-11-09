@@ -37,6 +37,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import com.warriors.etri.kiosk.BottomSheetHandler;
+
 public class MainActivity extends AppCompatActivity implements ETRIApiHandler.OnETRIApiResultListener {
     TextView textView;
 
@@ -44,10 +46,6 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
     static Button payButton;
     static Button drawbtn;
 
-    TextView drawer_result;
-    TextView drawer_question;
-    Button btnMIC;
-    Button btnClose;
 
     Intent intent;
     SpeechRecognizer mRecognizer;
@@ -188,51 +186,11 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
         });
 
         drawbtn = findViewById(R.id.drawBtn);
-
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View bottomSheetView = inflater.inflate(R.layout.bottom_sheet, null, false);
-        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
-        bottomSheetDialog.setContentView(bottomSheetView);
-
         drawbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bottomSheetDialog.show();
+                BottomSheetHandler.showBottomSheet(MainActivity.this, listener, intent);
             }
-        });
-
-        btnMIC = bottomSheetView.findViewById(R.id.btnMIC);
-
-        // BottomSheet의 resultTextView를 찾아서 초기화
-        drawer_question = bottomSheetView.findViewById(R.id.qtext);
-        drawer_result = bottomSheetView.findViewById(R.id.drawerResult);
-
-        // RecognizerIntent 생성
-        intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR");
-
-        btnMIC.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                //Toast.makeText(getApplicationContext(), "MIC", Toast.LENGTH_SHORT).show();
-                mRecognizer = SpeechRecognizer.createSpeechRecognizer(MainActivity.this);
-                mRecognizer.setRecognitionListener(listener);
-                mRecognizer.startListening(intent);
-//                bottomSheetDialog.dismiss();
-
-            }
-        });
-
-        btnClose = bottomSheetView.findViewById(R.id.btnClose);
-        btnClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "닫기", Toast.LENGTH_SHORT).show();
-                bottomSheetDialog.dismiss();
-            }
-
         });
 
     }
