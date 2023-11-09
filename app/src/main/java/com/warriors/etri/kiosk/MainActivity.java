@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.splashscreen.SplashScreen;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,6 +28,7 @@ import android.content.Intent;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -67,13 +69,14 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
     private DatabaseReference beverageDatabase;
     private DatabaseReference orderDatabase;
 
-    int orderId = 0;
-    String orderIdStr = "";
+//    int orderId = 0;
+//    String orderIdStr = "";
     int orderPrice = 0;
     int orderCount = 0;
     boolean orderExist = false;
     Order orderExistData = new Order();
     static int totalPrice = 0;
+    String description = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,8 +101,10 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
         payButton = findViewById(R.id.payButton);
         // menu
         MenuRecyclerView = findViewById(R.id.recyclerView);
-        MenuRecyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
+        // 변경: GridLayoutManager로 변경
+        layoutManager = new GridLayoutManager(this, 2); // 2는 열의 수, 필요에 따라 조절
+//        MenuRecyclerView.setHasFixedSize(true);
+//        layoutManager = new LinearLayoutManager(this);
         MenuRecyclerView.setLayoutManager(layoutManager);
         MenuArrayList = new ArrayList<>();
         // order
@@ -281,9 +286,34 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
                         JSONObject returnObject = responseJSON.getJSONObject("return_object");
                         JSONObject mrcInfo = returnObject.getJSONObject("MRCInfo");
                         String answer = mrcInfo.getString("answer");
-
                         // "answer" 값을 출력 또는 처리
                         Log.d("Extracted Answer", answer);
+
+                        // Pass the 'answer' value to WikiETRIApiHandler
+                        WikiETRIApiHandler.queryWikiETRIApi(answer, new WikiETRIApiHandler.OnWikiETRIApiResultListener() {
+                            @Override
+                            public void onApiResult(String result, String responseBody) {
+                                try {
+                                    JSONObject responseJSON2 = new JSONObject(responseBody);
+                                    JSONObject returnObject2 = responseJSON2.getJSONObject("return_object");
+                                    JSONObject WikiInfoObject = returnObject2.getJSONObject("WiKiInfo");
+                                    JSONArray answerInfoArray = WikiInfoObject.getJSONArray("AnswerInfo");
+
+                                    if (answerInfoArray.length() > 0) {
+                                        // Get the "answer" value from the first element in the array
+                                        JSONObject answerInfo = answerInfoArray.getJSONObject(0);
+                                        description = answerInfo.getString("answer");
+
+                                        Log.d("Description", description);
+                                    } else {
+                                        // Handle the case where there's no answer info
+                                        Log.d("Description", "No answer info available");
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
 
                         // 필요에 따라 결과를 출력하거나 다른 작업을 수행합니다.
                         String displayText = answer;
