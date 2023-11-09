@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
@@ -48,6 +49,8 @@ public class BottomSheetHandler {
 
     private static TextView drawer_question;
     private static TextView drawer_result;
+
+    private  static TextView yn_text;
     private static ImageButton btnMIC;
     private static Button btnClose;
 
@@ -74,6 +77,7 @@ public class BottomSheetHandler {
         drawer_question = bottomSheetView.findViewById(R.id.qtext);
         drawer_result = bottomSheetView.findViewById(R.id.drawerResult);
         btnClose = bottomSheetView.findViewById(R.id.btnClose);
+        yn_text = bottomSheetView.findViewById(R.id.YN_txt);
 
         btnMIC.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,8 +182,11 @@ public class BottomSheetHandler {
                                         String displayText = answer;
                                         Log.d("API 결과와 응답 본문1", displayText);
 
-                                        displayText =  answer + "를 주문하시겠습니까?\n(예, 아니오)";
+                                        displayText =  answer + "를 주문하시겠습니까?\n";
                                         drawer_question.setText(displayText);
+                                        yn_text.setText("(네 또는 아니오)");
+                                        //drawer_question.setTextColor(Color.parseColor("#FE9A2E"));
+
 
                                         // Assuming you want to change order_in after successful API call
                                         order_in = 1;
@@ -227,6 +234,7 @@ public class BottomSheetHandler {
                                             // API 결과가 0인 경우: 다시 초기 상태로 돌아갑니다.
                                             displayText =  "주문하실 메뉴를 말해주세요\n";
                                             drawer_question.setText(displayText);
+                                            yn_text.setText("");
                                             // Reset to the initial state and increase cnt
                                             order_in = 0;
                                             cnt++;
@@ -245,7 +253,7 @@ public class BottomSheetHandler {
                                 }
                             };
 
-                            ETRIApiHandler.queryETRIApi(fullResult, "'예' : '1' , '아니오': '0'", onETRIApiResultListener);
+                            ETRIApiHandler.queryETRIApi(fullResult, "'네' : '1' , '아니오': '0'", onETRIApiResultListener);
                             drawer_result.setText(fullResult);
                             // Handle unsuccessful response for order_in = 1
                             // Reset to the initial state and increase cnt

@@ -47,7 +47,7 @@
         <TextView
             android:id="@+id/qtext"
             android:layout_width="320dp"
-            android:layout_height="100dp"
+            android:layout_height="55dp"
             android:text="주문하실 메뉴를 말해주세요"
             android:textSize="22dp"
 
@@ -55,21 +55,32 @@
             android:gravity="center"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="0dp"/>
+        <TextView
+            android:id="@+id/YN_txt"
+            android:layout_width="320dp"
+            android:layout_height="40dp"
+            android:text=""
+            android:textSize="20dp"
+            android:textColor="#5D9DF2"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="5dp"/>
 
 
-            <ImageButton
-                android:id="@+id/btnMIC"
-                android:layout_width="123dp"
-                android:layout_height="123dp"
-                android:src="@drawable/chuck_btn"
-                android:background="@drawable/circle_background"
-                />
+        <ImageButton
+            android:id="@+id/btnMIC"
+            android:layout_width="123dp"
+            android:layout_height="123dp"
+            android:src="@drawable/chuck_btn"
+            android:background="@drawable/circle_background"
+            />
 
         <TextView
             android:layout_width="320dp"
-            android:layout_height="11dp"
+            android:layout_height="13dp"
             android:text="버튼을 누르고 말씀해주세요"
-            android:textSize="11dp"
+            android:textSize="13dp"
             android:textStyle="bold"
             android:gravity="center"
             android:layout_marginTop="10dp"
