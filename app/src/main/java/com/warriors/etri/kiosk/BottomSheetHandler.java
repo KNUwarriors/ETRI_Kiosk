@@ -182,7 +182,7 @@ public class BottomSheetHandler {
                                         String displayText = answer;
                                         Log.d("API 결과와 응답 본문1", displayText);
 
-                                        displayText =  answer + "를 주문하시겠습니까?\n";
+                                        displayText = "<"+ answer + ">를 주문하시겠습니까?\n";
                                         drawer_question.setText(displayText);
                                         yn_text.setText("(네 또는 아니오)");
                                         //drawer_question.setTextColor(Color.parseColor("#FE9A2E"));
