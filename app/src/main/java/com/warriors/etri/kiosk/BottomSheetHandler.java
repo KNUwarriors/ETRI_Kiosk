@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,7 +48,7 @@ public class BottomSheetHandler {
 
     private static TextView drawer_question;
     private static TextView drawer_result;
-    private static Button btnMIC;
+    private static ImageButton btnMIC;
     private static Button btnClose;
 
     private static int order_in = 0;
@@ -56,9 +57,12 @@ public class BottomSheetHandler {
     private static String fullResult = "";
     private static String answer = "";
 
-    public static void showBottomSheet(Context context, RecognitionListener recognitionListener, Intent recognizerIntent) {
+    public static void showBottomSheet(Context context, RecognitionListener recognitionListener, Intent recognizerIntent, MainActivity mainActivity) {
         listener = recognitionListener;
         intent = recognizerIntent;
+
+        order_in = 0;
+        cnt = 0;
 
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -138,98 +142,116 @@ public class BottomSheetHandler {
                         Toast.makeText(context, "에러 발생: " + message, Toast.LENGTH_SHORT).show();
                     }
 
-                        @Override
+                    @Override
                     public void onResults(Bundle results) {
                         ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
 
-                            StringBuilder allResults = new StringBuilder();
+                        StringBuilder allResults = new StringBuilder();
 
 
-                            for (int i = 0; i < matches.size(); i++) {
-                                String result = matches.get(i);
-                                allResults.append(result).append(" ");
-                            }
+                        for (int i = 0; i < matches.size(); i++) {
+                            String result = matches.get(i);
+                            allResults.append(result).append(" ");
+                        }
 
-                            fullResult = allResults.toString();
+                        fullResult = allResults.toString();
 
+                        drawer_result.setText(fullResult);
+                        Log.d("Recognized Text", fullResult);
+                        System.out.println(fullResult);
+
+                        // 음성인식 결과에 따라 order_in 업데이트
+                        if (order_in == 0) {
+                            ETRIApiHandler.OnETRIApiResultListener onETRIApiResultListener = new ETRIApiHandler.OnETRIApiResultListener() {
+                                @Override
+                                public void onApiResult(String result, String responseBody) {
+                                    try {
+                                        JSONObject responseJSON = new JSONObject(responseBody);
+                                        JSONObject returnObject = responseJSON.getJSONObject("return_object");
+                                        JSONObject mrcInfo = returnObject.getJSONObject("MRCInfo");
+                                        answer = mrcInfo.getString("answer");
+
+                                        // "answer" 값을 출력 또는 처리
+                                        Log.d("Extracted Answer", answer);
+
+                                        // 필요에 따라 결과를 출력하거나 다른 작업을 수행합니다.
+                                        String displayText = answer;
+                                        Log.d("API 결과와 응답 본문1", displayText);
+
+                                        displayText =  answer + "를 주문하시겠습니까?\n(예, 아니오)";
+                                        drawer_question.setText(displayText);
+
+                                        // Assuming you want to change order_in after successful API call
+                                        order_in = 1;
+
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            };
+                            ETRIApiHandler.queryETRIApi(fullResult, "'녹차라떼 한잔 주세요' : '녹차라떼' , '딸기스무디 한잔 주세요' : '딸기스무디' , '레몬에이드 한잔 주세요' : '레몬에이드' , '망고스무디 한잔 주세요' : '망고스무디' , '밀크티 한잔 주세요' : '밀크티' , '아메리카노 한잔 주세요' : '아메리카노' , '자몽에이드 한잔 주세요' : '자몽에이드' , '초코라떼 한잔 주세요' : '초코라떼' , '카페라떼 한잔 주세요' : '카페라떼'", onETRIApiResultListener);
                             drawer_result.setText(fullResult);
-                            Log.d("Recognized Text", fullResult);
+
+                        } else if (order_in == 1) {
+                            // Update Drawer Question and Drawer Result for order_in = 1
                             System.out.println(fullResult);
 
-                            // 음성인식 결과에 따라 order_in 업데이트
-                            if (order_in == 0) {
-                                ETRIApiHandler.OnETRIApiResultListener onETRIApiResultListener = new ETRIApiHandler.OnETRIApiResultListener() {
-                                    @Override
-                                    public void onApiResult(String result, String responseBody) {
-                                        try {
-                                            JSONObject responseJSON = new JSONObject(responseBody);
-                                            JSONObject returnObject = responseJSON.getJSONObject("return_object");
-                                            JSONObject mrcInfo = returnObject.getJSONObject("MRCInfo");
-                                            answer = mrcInfo.getString("answer");
+                            ETRIApiHandler.OnETRIApiResultListener onETRIApiResultListener = new ETRIApiHandler.OnETRIApiResultListener() {
+                                @Override
+                                public void onApiResult(String result, String responseBody) {
+                                    try {
+                                        JSONObject responseJSON = new JSONObject(responseBody);
+                                        JSONObject returnObject = responseJSON.getJSONObject("return_object");
+                                        JSONObject mrcInfo = returnObject.getJSONObject("MRCInfo");
+                                        String YorN = mrcInfo.getString("answer");
 
-                                            // "answer" 값을 출력 또는 처리
-                                            Log.d("Extracted Answer", answer);
+                                        // "answer" 값을 출력 또는 처리
+                                        Log.d("Extracted Answer", YorN);
 
-                                            // 필요에 따라 결과를 출력하거나 다른 작업을 수행합니다.
-                                            String displayText = answer;
-                                            Log.d("API 결과와 응답 본문1", displayText);
+                                        // 필요에 따라 결과를 출력하거나 다른 작업을 수행합니다.
+                                        String displayText = YorN;
+                                        Log.d("API 결과와 응답 본문1", displayText);
 
-                                            displayText =  answer + "를 주문하시겠습니까?\n";
+                                        // API 결과에 따라 다르게 처리
+                                        if ("1".equals(YorN)) {
+                                            // API 결과가 1인 경우: 해당 메뉴를 DB에 추가하고 bottom sheet를 닫습니다.
+                                            System.out.println("1입니다링고");
+                                            order_in = 0;
+                                            // TODO: 해당 메뉴를 DB에 추가하는 로직을 작성하세요.
+                                            mainActivity.addOrder(answer);
+
+                                            bottomSheetDialog.dismiss();
+                                        } else {
+                                            System.out.println("0입니다링고");
+                                            // API 결과가 0인 경우: 다시 초기 상태로 돌아갑니다.
+                                            displayText =  "주문하실 메뉴를 말해주세요\n";
                                             drawer_question.setText(displayText);
+                                            // Reset to the initial state and increase cnt
+                                            order_in = 0;
+                                            cnt++;
 
-                                            // Assuming you want to change order_in after successful API call
-                                            order_in = 1;
-
-
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
+                                            if (cnt == 10) {
+                                                // Handle the case when cnt reaches 5
+                                                // Close the drawer or perform other actions
+                                                bottomSheetDialog.dismiss();
+                                            }
                                         }
+
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
                                     }
-                                };
-                                ETRIApiHandler.queryETRIApi(fullResult, "'녹차라떼 한잔 주세요' : '녹차라떼' , '딸기스무디 한잔 주세요' : '딸기스무디' , '레몬에이드 한잔 주세요' : '레몬에이드' , '망고스무디 한잔 주세요' : '망고스무디' , '밀크티 한잔 주세요' : '밀크티' , '아메리카노 한잔 주세요' : '아메리카노' , '자몽에이드 한잔 주세요' : '자몽에이드' , '초코라떼 한잔 주세요' : '초코라떼' , '카페라떼 한잔 주세요' : '카페라떼'", onETRIApiResultListener);
-                                drawer_result.setText(fullResult);
-
-                            } else if (order_in == 1) {
-                                // Update Drawer Question and Drawer Result for order_in = 1
-                                drawer_result.setText("버튼을 누르고 '예' 또는 '아니오'를 말씀해주세요");
-                                System.out.println(fullResult);
-
-                                ETRIApiHandler.OnETRIApiResultListener onETRIApiResultListener = new ETRIApiHandler.OnETRIApiResultListener() {
-                                    @Override
-                                    public void onApiResult(String result, String responseBody) {
-                                        try {
-                                            JSONObject responseJSON = new JSONObject(responseBody);
-                                            JSONObject returnObject = responseJSON.getJSONObject("return_object");
-                                            JSONObject mrcInfo = returnObject.getJSONObject("MRCInfo");
-                                            String YorN = mrcInfo.getString("answer");
-
-                                            // "answer" 값을 출력 또는 처리
-                                            Log.d("Extracted Answer", YorN);
-
-                                            // 필요에 따라 결과를 출력하거나 다른 작업을 수행합니다.
-                                            String displayText = YorN;
-                                            Log.d("API 결과와 응답 본문1", displayText);
-
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                };
-
-                                ETRIApiHandler.queryETRIApi(fullResult, "'예' : '1' , '아니오: '0'", onETRIApiResultListener);
-                                // Handle unsuccessful response for order_in = 1
-                                // Reset to the initial state and increase cnt
-                                order_in = 0;
-                                cnt++;
-
-                                if (cnt == 5) {
-                                    // Handle the case when cnt reaches 5
-                                    // Close the drawer or perform other actions
-                                    bottomSheetDialog.dismiss();
                                 }
-                            }
+                            };
 
+                            ETRIApiHandler.queryETRIApi(fullResult, "'예' : '1' , '아니오': '0'", onETRIApiResultListener);
+                            drawer_result.setText(fullResult);
+                            // Handle unsuccessful response for order_in = 1
+                            // Reset to the initial state and increase cnt
                         }
+
+                    }
 
                     @Override
                     public void onPartialResults(Bundle bundle) {

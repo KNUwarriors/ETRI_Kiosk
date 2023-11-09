@@ -194,7 +194,9 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
         drawbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BottomSheetHandler.showBottomSheet(MainActivity.this, listener, intent);
+                BottomSheetHandler.showBottomSheet(MainActivity.this, listener, intent, MainActivity.this);
+
+
             }
         });
 
@@ -445,5 +447,63 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
     @Override
     public void onApiResult(String result, String responseBody) {
 
+    }
+
+    public void  addOrder(String answer) {
+        // 주문 데이터베이스를 한 번만 확인
+        orderDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                    orderId = 1;
+                orderExist = false;
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    orderExistData = snapshot.getValue(Order.class);
+                    if (orderExistData.getName().equals(answer)) {
+                        orderExist = true;
+//                            orderIdStr = "" + orderId;
+                        Log.e("order is in orderlist!", String.valueOf(orderExist));
+                        break;
+                    }
+//                        orderId += 1;
+                }
+
+                if (!orderExist) {
+                    Log.e("!orderExist", orderExist + answer);
+                    // 주문이 없는 경우, 메뉴 데이터베이스에서 가격을 가져와서 새로운 주문을 추가
+                    beverageDatabase.child(answer).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            Menu menu = dataSnapshot.getValue(Menu.class);
+                            orderPrice = menu.getPrice();
+                            orderCount = 1;
+//                                orderIdStr = orderId + "";
+                            writeNewOrder(answer, answer, orderPrice, orderCount);
+
+                            refreshOrderList();
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Log.e("MainActivity", String.valueOf(error.toException()));
+                        }
+                    });
+                } else {
+                    Log.e("Else about !orderExist", orderExist + answer);
+                    // 주문이 이미 있는 경우, 주문을 업데이트
+                    orderExistData.setCount(orderExistData.getCount() + 1);
+                    orderDatabase.child(answer).setValue(orderExistData);
+
+                    refreshOrderList();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("MainActivity", String.valueOf(error.toException()));
+            }
+        });
+
+        Log.d("MainActivity", "주문 추가: " + answer);
     }
 }
