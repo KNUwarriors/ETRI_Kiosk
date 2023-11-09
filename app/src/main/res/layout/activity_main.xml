@@ -10,7 +10,10 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="370dp" />
+        android:layout_height="370dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="3dp"
+        />
 
     <TextView
         android:id="@+id/resultTextView"
@@ -55,7 +58,9 @@
             android:text="결제하기"
             android:textColor="#5D9DF2"
             android:textSize="18dp"
-            android:layout_margin="3dp" />
+            android:layout_margin="3dp"
+            />
+
 
     </LinearLayout>
 

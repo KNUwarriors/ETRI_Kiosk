@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.splashscreen.SplashScreen;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -89,8 +90,10 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
         payButton = findViewById(R.id.payButton);
         // menu
         MenuRecyclerView = findViewById(R.id.recyclerView);
-        MenuRecyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
+        // 변경: GridLayoutManager로 변경
+        layoutManager = new GridLayoutManager(this, 2); // 2는 열의 수, 필요에 따라 조절
+//        MenuRecyclerView.setHasFixedSize(true);
+//        layoutManager = new LinearLayoutManager(this);
         MenuRecyclerView.setLayoutManager(layoutManager);
         MenuArrayList = new ArrayList<>();
         // order
