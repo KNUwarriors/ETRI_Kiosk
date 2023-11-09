@@ -8,12 +8,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -28,6 +30,7 @@ import android.content.DialogInterface;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,6 +42,13 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
 
     Button button;
     static Button payButton;
+    static Button drawbtn;
+
+    TextView drawer_result;
+    TextView drawer_question;
+    Button btnMIC;
+    Button btnClose;
+
     Intent intent;
     SpeechRecognizer mRecognizer;
     final int PERMISSION = 1;
@@ -86,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
         textView = findViewById(R.id.resultTextView);
 
         button = findViewById(R.id.startButton);
+
         payButton = findViewById(R.id.payButton);
         // menu
         MenuRecyclerView = findViewById(R.id.recyclerView);
@@ -175,6 +186,55 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
                 refreshOrderList();
             }
         });
+
+        drawbtn = findViewById(R.id.drawBtn);
+
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View bottomSheetView = inflater.inflate(R.layout.bottom_sheet, null, false);
+        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+        bottomSheetDialog.setContentView(bottomSheetView);
+
+        drawbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheetDialog.show();
+            }
+        });
+
+        btnMIC = bottomSheetView.findViewById(R.id.btnMIC);
+
+        // BottomSheet의 resultTextView를 찾아서 초기화
+        drawer_question = bottomSheetView.findViewById(R.id.qtext);
+        drawer_result = bottomSheetView.findViewById(R.id.drawerResult);
+
+        // RecognizerIntent 생성
+        intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR");
+
+        btnMIC.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(getApplicationContext(), "MIC", Toast.LENGTH_SHORT).show();
+                mRecognizer = SpeechRecognizer.createSpeechRecognizer(MainActivity.this);
+                mRecognizer.setRecognitionListener(listener);
+                mRecognizer.startListening(intent);
+//                bottomSheetDialog.dismiss();
+
+            }
+        });
+
+        btnClose = bottomSheetView.findViewById(R.id.btnClose);
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "닫기", Toast.LENGTH_SHORT).show();
+                bottomSheetDialog.dismiss();
+            }
+
+        });
+
     }
 
     private RecognitionListener listener = new RecognitionListener() {
