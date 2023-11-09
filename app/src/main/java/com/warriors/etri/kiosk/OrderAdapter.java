@@ -1,7 +1,6 @@
 package com.warriors.etri.kiosk;
 
 
-
 import static com.warriors.etri.kiosk.MainActivity.payButton;
 import static com.warriors.etri.kiosk.MainActivity.totalPrice;
 
@@ -19,10 +18,13 @@ import java.util.ArrayList;
 
 import android.widget.Button; // 추가
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 
@@ -58,13 +60,37 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
                 orderDatabase = database.getReference("chuckchuck/order");
                 int currentPosition = holder.getAdapterPosition();
                 Order currentOrder = arrayList.get(currentPosition);
-                int orderId = currentPosition + 1;
-                String orderIdStr = "" + orderId;
-                currentOrder.setCount(currentOrder.getCount() + 1);
-                notifyDataSetChanged(); // 어댑터를 업데이트하여 변경된 내용을 반영
-                orderDatabase.child(orderIdStr).setValue(currentOrder);
-                totalPrice += currentOrder.getPrice();
-                payButton.setText(totalPrice + "원\n\n결제하기");
+
+                String currentOrderName = currentOrder.getName();
+
+                Query query = orderDatabase.orderByChild("name").equalTo(currentOrderName);
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            // 여기서 name 필드를 기준으로 데이터를 찾아 조작합니다.
+                            Order order = snapshot.getValue(Order.class);
+                            if (order != null) {
+                                int newCount = order.getCount() + 1;
+
+                                // 다른 조작 내용을 추가하거나 변경할 수 있습니다.
+
+                                order.setCount(newCount);
+                                snapshot.getRef().setValue(order);
+
+                                currentOrder.setCount(newCount);
+                                notifyDataSetChanged(); // 어댑터를 업데이트하여 변경된 내용을 반영
+                                totalPrice += currentOrder.getPrice();
+                                payButton.setText(totalPrice + "원\n\n결제하기");
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        // 처리 중에 오류가 발생한 경우 처리
+                    }
+                });
             }
         });
 
@@ -75,16 +101,43 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
                 orderDatabase = database.getReference("chuckchuck/order");
                 int currentPosition = holder.getAdapterPosition();
                 Order currentOrder = arrayList.get(currentPosition);
-                int orderId = currentPosition + 1;
-                String orderIdStr = "" + orderId;
-                int newCount = currentOrder.getCount() - 1;
-                if (newCount >= 0) {
-                    currentOrder.setCount(newCount);
-                    notifyDataSetChanged(); // 어댑터를 업데이트하여 변경된 내용을 반영
-                    orderDatabase.child(orderIdStr).setValue(currentOrder);
-                    totalPrice -= currentOrder.getPrice();
-                    payButton.setText(totalPrice + "원\n\n결제하기");
-                }
+
+                String currentOrderName = currentOrder.getName();
+
+                Query query = orderDatabase.orderByChild("name").equalTo(currentOrderName);
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            // 여기서 name 필드를 기준으로 데이터를 찾아 조작합니다.
+                            Order order = snapshot.getValue(Order.class);
+                            if (order != null) {
+                                int newCount = order.getCount() - 1;
+
+                                if (newCount >= 0) {
+                                    if (newCount == 0) {
+                                        snapshot.getRef().removeValue(); // count가 0이면 해당 데이터를 DB에서 제거
+                                        arrayList.remove(currentOrder); // arrayList에서도 해당 데이터 제거
+                                        notifyDataSetChanged(); // 어댑터를 업데이트하여 변경된 내용을 반영
+                                    } else {
+                                        order.setCount(newCount);
+                                        snapshot.getRef().setValue(order);
+                                    }
+                                    currentOrder.setCount(newCount);
+                                    notifyDataSetChanged(); // 어댑터를 업데이트하여 변경된 내용을 반영
+                                    totalPrice -= currentOrder.getPrice();
+                                    payButton.setText(totalPrice + "원\n\n결제하기");
+
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        // 처리 중에 오류가 발생한 경우 처리
+                    }
+                });
             }
         });
     }
