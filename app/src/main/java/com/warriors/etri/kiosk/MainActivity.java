@@ -304,18 +304,18 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
             orderDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    orderId = 1;
+//                    orderId = 1;
                     orderExist = false;
 
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         orderExistData = snapshot.getValue(Order.class);
                         if (orderExistData.getName().equals(answer)) {
                             orderExist = true;
-                            orderIdStr = "" + orderId;
+//                            orderIdStr = "" + orderId;
                             Log.e("order is in orderlist!", String.valueOf(orderExist));
                             break;
                         }
-                        orderId += 1;
+//                        orderId += 1;
                     }
 
                     if (!orderExist) {
@@ -327,8 +327,8 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
                                 Menu menu = dataSnapshot.getValue(Menu.class);
                                 orderPrice = menu.getPrice();
                                 orderCount = 1;
-                                orderIdStr = orderId + "";
-                                writeNewOrder(orderIdStr, answer, orderPrice, orderCount);
+//                                orderIdStr = orderId + "";
+                                writeNewOrder(answer, answer, orderPrice, orderCount);
 
                                 refreshOrderList();
                             }
@@ -342,7 +342,7 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
                         Log.e("Else about !orderExist", orderExist + answer);
                         // 주문이 이미 있는 경우, 주문을 업데이트
                         orderExistData.setCount(orderExistData.getCount() + 1);
-                        orderDatabase.child(orderIdStr).setValue(orderExistData);
+                        orderDatabase.child(answer).setValue(orderExistData);
 
                         refreshOrderList();
                     }
