@@ -172,30 +172,31 @@ public class MenuDictionary {
                           Log.d("Recognized Text", fullResult);
                           System.out.println(fullResult);
 
-
-                          ETRIApiHandler.OnETRIApiResultListener onETRIApiResultListener = new ETRIApiHandler.OnETRIApiResultListener() {
+                          WikiETRIApiHandler.queryWikiETRIApi(fullResult, new WikiETRIApiHandler.OnWikiETRIApiResultListener() {
                               @Override
                               public void onApiResult(String result, String responseBody) {
                                   try {
-                                      JSONObject responseJSON = new JSONObject(responseBody);
-                                      JSONObject returnObject = responseJSON.getJSONObject("return_object");
-                                      JSONObject mrcInfo = returnObject.getJSONObject("MRCInfo");
-                                      answer = mrcInfo.getString("answer");
+                                      JSONObject responseJSON2 = new JSONObject(responseBody);
+                                      JSONObject returnObject2 = responseJSON2.getJSONObject("return_object");
+                                      JSONObject WikiInfoObject = returnObject2.getJSONObject("WiKiInfo");
+                                      JSONArray answerInfoArray = WikiInfoObject.getJSONArray("AnswerInfo");
 
-                                      // "answer" 값을 출력 또는 처리
-                                      Log.d("Extracted Answer", answer);
+                                      if (answerInfoArray.length() > 0) {
+                                          // Get the "answer" value from the first element in the array
+                                          JSONObject answerInfo = answerInfoArray.getJSONObject(0);
+                                          answer = answerInfo.getString("answer");
 
-                                      // 필요에 따라 결과를 출력하거나 다른 작업을 수행합니다.
-                                      //String displayText = answer;
-                                      Log.d("API 결과와 응답 본문1", answer);
-
+                                          Log.d("Description", answer);
+                                      } else {
+                                          // Handle the case where there's no answer info
+                                          Log.d("Description", "No answer info available");
+                                      }
                                   } catch (JSONException e) {
                                       e.printStackTrace();
                                   }
                               }
-                          };
+                          });
 
-                          ETRIApiHandler.queryETRIApi(fullResult, "'녹차라떼 한잔 주세요' : '녹차라떼' , '딸기스무디 한잔 주세요' : '딸기스무디' , '레몬에이드 한잔 주세요' : '레몬에이드' , '망고스무디 한잔 주세요' : '망고스무디' , '밀크티 한잔 주세요' : '밀크티' , '아메리카노 한잔 주세요' : '아메리카노' , '자몽에이드 한잔 주세요' : '자몽에이드' , '초코라떼 한잔 주세요' : '초코라떼' , '카페라떼 한잔 주세요' : '카페라떼'", onETRIApiResultListener);
                           drawer_result.setText(answer);
 
                       }
