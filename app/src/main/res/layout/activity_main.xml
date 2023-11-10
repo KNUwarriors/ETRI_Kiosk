@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".MainActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -13,67 +13,68 @@
         android:layout_height="370dp"
         android:layout_marginHorizontal="10dp"
         android:layout_marginVertical="3dp"
-        />
+        android:backgroundTint="#8D9EC0"/>
 
-    <TextView
-        android:id="@+id/resultTextView"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="원하시는 메뉴를 말씀해 주세요."
-        android:textSize="18dp"
-        android:layout_margin="5dp"
-        android:layout_gravity="center_horizontal" />
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/drawBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:layout_marginVertical="5dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="20dp"
             android:backgroundTint="@color/white"
-            android:textColor="#5D9DF2"
             android:fontFamily="@font/nexon2_bold"
-            android:textSize="18dp"
-            android:layout_margin="5dp"
             android:paddingHorizontal="20dp"
-            android:text="drawer" />
+            android:text="주문하기"
+            android:textColor="#375183"
+            android:textSize="20dp" />
 
         <Button
             android:id="@+id/dictBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:layout_marginVertical="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="40dp"
             android:backgroundTint="@color/white"
-            android:textColor="#5D9DF2"
             android:fontFamily="@font/nexon2_bold"
-            android:textSize="18dp"
-            android:layout_margin="5dp"
             android:paddingHorizontal="20dp"
-            android:text="메뉴사전" />
+            android:text="메뉴사전"
+            android:textColor="#375183"
+            android:textSize="20dp" />
 
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:layout_margin="5dp">
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/orderRecyclerView"
             android:layout_width="260dp"
             android:layout_height="match_parent"
-            android:layout_margin="3dp"/>
+            android:layout_margin="3dp" />
 
         <Button
             android:id="@+id/payButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="3dp"
             android:backgroundTint="@color/white"
             android:fontFamily="@font/nexon2_bold"
             android:text="결제하기"
-            android:textColor="#5D9DF2"
-            android:textSize="18dp"
-            android:layout_margin="3dp"
-            />
+            android:textColor="#375183"
+            android:textSize="20dp" />
 
 
     </LinearLayout>

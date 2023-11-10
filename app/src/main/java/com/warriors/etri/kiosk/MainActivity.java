@@ -70,8 +70,6 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
     private DatabaseReference beverageDatabase;
     private DatabaseReference orderDatabase;
 
-//    int orderId = 0;
-//    String orderIdStr = "";
     int orderPrice = 0;
     int orderCount = 0;
     boolean orderExist = false;
@@ -95,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
             }, PERMISSION);
         }
 
-        textView = findViewById(R.id.resultTextView);
+
 
         dictbutton = findViewById(R.id.dictBtn);
 
@@ -104,8 +102,6 @@ public class MainActivity extends AppCompatActivity implements ETRIApiHandler.On
         MenuRecyclerView = findViewById(R.id.recyclerView);
         // 변경: GridLayoutManager로 변경
         layoutManager = new GridLayoutManager(this, 2); // 2는 열의 수, 필요에 따라 조절
-//        MenuRecyclerView.setHasFixedSize(true);
-//        layoutManager = new LinearLayoutManager(this);
         MenuRecyclerView.setLayoutManager(layoutManager);
         MenuArrayList = new ArrayList<>();
         // order
