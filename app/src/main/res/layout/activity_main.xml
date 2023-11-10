@@ -10,7 +10,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="370dp"
+        android:layout_height="450dp"
         android:layout_marginHorizontal="10dp"
         android:layout_marginVertical="3dp"
         android:backgroundTint="#8D9EC0"/>
@@ -61,7 +61,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/orderRecyclerView"
-            android:layout_width="260dp"
+            android:layout_width="350dp"
             android:layout_height="match_parent"
             android:layout_margin="3dp" />
 
