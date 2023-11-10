@@ -76,7 +76,6 @@
 
         <TextView
             android:id="@+id/drawerResult"
-<<<<<<< HEAD
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text=""
@@ -85,15 +84,7 @@
             android:textColor="#375183"
             android:gravity="center"
             android:layout_margin="15dp"/>
-=======
-            android:layout_width="320dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="10dp"
-            android:gravity="center"
-            android:textSize="16dp"
-            android:textStyle="bold" />
->>>>>>> 7e92ef2c15e654902d424fca8b947a6ad7afaf59
+
 
     </LinearLayout>
 
