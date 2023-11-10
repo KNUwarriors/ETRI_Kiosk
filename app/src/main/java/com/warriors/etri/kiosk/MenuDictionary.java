@@ -1,20 +1,12 @@
 package com.warriors.etri.kiosk;
 
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.splashscreen.SplashScreen;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
-import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,21 +19,20 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import android.content.Intent;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import com.google.android.material.bottomsheet.BottomSheetDialog;
+import android.app.Activity;
+import android.view.ViewGroup;
+import android.util.DisplayMetrics;
+
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+
+
 
 public class MenuDictionary {
     private static BottomSheetDialog bottomSheetDialog;
@@ -64,8 +55,31 @@ public class MenuDictionary {
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View dictsheetview = inflater.inflate(R.layout.dictionary_sheet, null, false);
+
+        // Get the display metrics to calculate the height
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int screenHeight = displayMetrics.heightPixels;
+
+        // Set the height of the BottomSheet to 80% of the screen height
+        int bottomSheetHeight = (int) (screenHeight * 0.8);
+
+        // Set the layout parameters for the BottomSheet's view
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                bottomSheetHeight
+        );
+        dictsheetview.setLayoutParams(layoutParams);
+
         bottomSheetDialog = new BottomSheetDialog(context);
         bottomSheetDialog.setContentView(dictsheetview);
+
+        // Get the BottomSheetBehavior from the View
+        View bottomSheetView = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetView);
+
+        // Set the height of the BottomSheet when it is in the collapsed state (peek height)
+        bottomSheetBehavior.setPeekHeight(bottomSheetHeight);
 
         btnMIC = dictsheetview.findViewById(R.id.btnMIC);
 
@@ -158,30 +172,31 @@ public class MenuDictionary {
                           Log.d("Recognized Text", fullResult);
                           System.out.println(fullResult);
 
-
-                          ETRIApiHandler.OnETRIApiResultListener onETRIApiResultListener = new ETRIApiHandler.OnETRIApiResultListener() {
+                          WikiETRIApiHandler.queryWikiETRIApi(fullResult, new WikiETRIApiHandler.OnWikiETRIApiResultListener() {
                               @Override
                               public void onApiResult(String result, String responseBody) {
                                   try {
-                                      JSONObject responseJSON = new JSONObject(responseBody);
-                                      JSONObject returnObject = responseJSON.getJSONObject("return_object");
-                                      JSONObject mrcInfo = returnObject.getJSONObject("MRCInfo");
-                                      answer = mrcInfo.getString("answer");
+                                      JSONObject responseJSON2 = new JSONObject(responseBody);
+                                      JSONObject returnObject2 = responseJSON2.getJSONObject("return_object");
+                                      JSONObject WikiInfoObject = returnObject2.getJSONObject("WiKiInfo");
+                                      JSONArray answerInfoArray = WikiInfoObject.getJSONArray("AnswerInfo");
 
-                                      // "answer" 값을 출력 또는 처리
-                                      Log.d("Extracted Answer", answer);
+                                      if (answerInfoArray.length() > 0) {
+                                          // Get the "answer" value from the first element in the array
+                                          JSONObject answerInfo = answerInfoArray.getJSONObject(0);
+                                          answer = answerInfo.getString("answer");
 
-                                      // 필요에 따라 결과를 출력하거나 다른 작업을 수행합니다.
-                                      //String displayText = answer;
-                                      Log.d("API 결과와 응답 본문1", answer);
-
+                                          Log.d("Description", answer);
+                                      } else {
+                                          // Handle the case where there's no answer info
+                                          Log.d("Description", "No answer info available");
+                                      }
                                   } catch (JSONException e) {
                                       e.printStackTrace();
                                   }
                               }
-                          };
+                          });
 
-                          ETRIApiHandler.queryETRIApi(fullResult, "'녹차라떼 한잔 주세요' : '녹차라떼' , '딸기스무디 한잔 주세요' : '딸기스무디' , '레몬에이드 한잔 주세요' : '레몬에이드' , '망고스무디 한잔 주세요' : '망고스무디' , '밀크티 한잔 주세요' : '밀크티' , '아메리카노 한잔 주세요' : '아메리카노' , '자몽에이드 한잔 주세요' : '자몽에이드' , '초코라떼 한잔 주세요' : '초코라떼' , '카페라떼 한잔 주세요' : '카페라떼'", onETRIApiResultListener);
                           drawer_result.setText(answer);
 
                       }
