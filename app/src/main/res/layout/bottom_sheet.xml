@@ -46,55 +46,61 @@
 
         <TextView
             android:id="@+id/qtext"
-            android:layout_width="320dp"
-            android:layout_height="55dp"
-            android:text="주문하실 메뉴를 말해주세요"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="주문하실 메뉴를 말씀해 주세요"
             android:textSize="22dp"
-
             android:textStyle="bold"
             android:gravity="center"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="0dp"/>
+            android:layout_margin="5dp"/>
         <TextView
             android:id="@+id/YN_txt"
-            android:layout_width="320dp"
-            android:layout_height="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text=""
             android:textSize="20dp"
-            android:textColor="#5D9DF2"
             android:textStyle="bold"
             android:gravity="center"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="5dp"/>
+            android:layout_margin="5dp"/>
 
 
         <ImageButton
             android:id="@+id/btnMIC"
             android:layout_width="123dp"
             android:layout_height="123dp"
+            android:layout_margin="5dp"
             android:src="@drawable/chuck_btn"
             android:background="@drawable/circle_background"
             />
 
         <TextView
-            android:layout_width="320dp"
-            android:layout_height="13dp"
-            android:text="버튼을 누르고 말씀해주세요"
-            android:textSize="13dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="버튼을 누르고 말씀해 주세요"
+            android:textSize="15dp"
             android:textStyle="bold"
             android:gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="0dp"/>
+            android:layout_margin="5dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="예시: 아메리카노 한잔 주세요."
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_margin="5dp"/>
 
 
         <TextView
             android:id="@+id/drawerResult"
-            android:layout_width="320dp"
+            android:layout_width="match_parent"
             android:layout_height="100dp"
             android:text=""
             android:textSize="22dp"
             android:textStyle="bold"
             android:gravity="center"
+            android:textColor="#375183"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"/>
 
