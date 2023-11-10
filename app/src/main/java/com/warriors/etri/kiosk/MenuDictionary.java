@@ -168,7 +168,7 @@ public class MenuDictionary {
 
                           fullResult = allResults.toString();
 
-                          drawer_result.setText(fullResult);
+//                          drawer_result.setText(fullResult);
                           Log.d("Recognized Text", fullResult);
                           System.out.println(fullResult);
 
@@ -187,6 +187,7 @@ public class MenuDictionary {
                                           answer = answerInfo.getString("answer");
 
                                           Log.d("Description", answer);
+                                          drawer_result.setText(answer);
                                       } else {
                                           // Handle the case where there's no answer info
                                           Log.d("Description", "No answer info available");
@@ -196,9 +197,6 @@ public class MenuDictionary {
                                   }
                               }
                           });
-
-                          drawer_result.setText(answer);
-
                       }
 
                       @Override
