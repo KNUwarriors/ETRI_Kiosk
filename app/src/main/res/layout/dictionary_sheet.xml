@@ -80,14 +80,11 @@
             android:id="@+id/drawerResult"
             android:layout_width="320dp"
             android:layout_height="wrap_content"
-            android:text="요하네스 케플러(Johannes Kepler, 1571년 12월 27일 ~ 1630년 11월 15일)는 독일의 수학자, 천문학자, 점성술사로, 17세기 천문학 혁명의 중심 인물이었다. 그는 자신의 이름이 붙은 행성운동법칙으로 유명하며, 후대의 천문학자들은 그의 저작 《신천문학》, 《우주의 조화》, 그리고 《코페르니쿠스 천문학 개요》를 바탕으로 그 법칙을 성문화하였다. 또한 이 저작들은 아이작 뉴턴이 만유인력의 법칙을 확립하는 데 기초를 제공하였다.
-
-생애 동안 케플러는 오스트리아 그라츠 신학교의 수학 선생, 천문학자 튀코 브라헤의 조수, 루돌프 2세·마티아스·페르디난트 2세의 세 황제를 모신 신성 로마 제국의 제국 수학자, 오스트리아 린츠에서의 수학 선생, 발렌슈타인 장군의 점성술사라는 다양한 경력의 소유자였다. 또한 그는 광학 연구 분야의 초석을 닦았으며, 굴절 망원경을 개조하여 성능을 향상시켰으며(케플러식 망원경), 동시대의 인물인 갈릴레오 갈릴레이의 망원경을 이용한 발견이 공식적으로 인정되는 데 공헌하였다."
-            android:textSize="16dp"
-            android:textStyle="bold"
-            android:gravity="center"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:textSize="16dp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
