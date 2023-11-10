@@ -196,7 +196,7 @@ public class BottomSheetHandler {
                                     }
                                 }
                             };
-                            ETRIApiHandler.queryETRIApi(fullResult, "'녹차라떼 한잔 주세요' : '녹차라떼' , '딸기스무디 한잔 주세요' : '딸기스무디' , '레몬에이드 한잔 주세요' : '레몬에이드' , '망고스무디 한잔 주세요' : '망고스무디' , '밀크티 한잔 주세요' : '밀크티' , '아메리카노 한잔 주세요' : '아메리카노' , '자몽에이드 한잔 주세요' : '자몽에이드' , '초코라떼 한잔 주세요' : '초코라떼' , '카페라떼 한잔 주세요' : '카페라떼'", onETRIApiResultListener);
+                            ETRIApiHandler.queryETRIApi(fullResult, "'녹차라떼 한잔 주세요':'녹차라떼' , '레모네이드 한잔 주세요':'레모네이드' , '밀크티 한잔 주세요':'밀크티' , '아메리카노 한잔 주세요':'아메리카노' , '아포가토 한잔 주세요':'아포가토' , '카푸치노 한잔 주세요':'카푸치노' , '캐모마일차 한잔 주세요':'캐모마일차' , '자몽에이드 한잔 주세요':'자몽에이드' , '카페라떼 한잔 주세요':'카페라떼'", onETRIApiResultListener);
                             drawer_result.setText(fullResult);
 
                         } else if (order_in == 1) {
