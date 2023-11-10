@@ -60,8 +60,7 @@ public class BottomSheetHandler {
     private static String fullResult = "";
     private static String answer = "";
 
-    public static void showBottomSheet(Context context, RecognitionListener recognitionListener, Intent recognizerIntent, MainActivity mainActivity) {
-        listener = recognitionListener;
+    public static void showBottomSheet(Context context, Intent recognizerIntent, MainActivity mainActivity) {
         intent = recognizerIntent;
 
         order_in = 0;

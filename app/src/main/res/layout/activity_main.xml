@@ -38,7 +38,7 @@
             android:text="drawer" />
 
         <Button
-            android:id="@+id/startButton"
+            android:id="@+id/dictBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -48,7 +48,7 @@
             android:textSize="18dp"
             android:layout_margin="5dp"
             android:paddingHorizontal="20dp"
-            android:text="시작하기" />
+            android:text="메뉴사전" />
 
 
     <LinearLayout

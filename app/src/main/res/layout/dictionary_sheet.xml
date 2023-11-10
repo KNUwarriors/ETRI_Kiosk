@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:gravity="center"
+        android:padding="4dp"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:gravity="center"
+            android:padding="4dp"
+            android:background="@color/white">
+
+            <View    android:layout_width="0dp"    android:layout_height="0dp"    android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/btnClose"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="8dp"
+                android:background="#FFFFFF"
+                android:text="X"
+                android:textColor="@color/white"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/instruction"
+            android:layout_width="320dp"
+            android:layout_height="40dp"
+            android:text="버튼을 누르고 말해주세요"
+            android:textSize="22dp"
+
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="0dp"/>
+
+
+        <ImageButton
+            android:id="@+id/btnMIC"
+            android:layout_width="123dp"
+            android:layout_height="123dp"
+            android:src="@drawable/chuck_btn"
+            android:background="@drawable/circle_background"
+            />
+
+        <TextView
+            android:layout_width="320dp"
+            android:layout_height="17dp"
+            android:text="예시: 녹차라떼가 뭐야? 라고 물어보세요."
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="0dp"/>
+
+
+        <TextView
+            android:id="@+id/drawerResult"
+            android:layout_width="320dp"
+            android:layout_height="120dp"
+            android:text=""
+            android:textSize="22dp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
