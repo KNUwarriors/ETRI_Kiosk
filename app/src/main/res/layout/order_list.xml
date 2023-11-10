@@ -28,7 +28,7 @@
         android:id="@+id/decreaseButton"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:backgroundTint="#5D9DF2"
+        android:backgroundTint="#375183"
         android:text="-"
         android:textColor="@color/white"
         android:textStyle="bold" />
@@ -48,7 +48,7 @@
         android:text="+"
         android:textStyle="bold"
         android:textColor="@color/white"
-        android:backgroundTint="#5D9DF2"
+        android:backgroundTint="#375183"
         />
 
 </LinearLayout>
