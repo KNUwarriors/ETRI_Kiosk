@@ -62,6 +62,7 @@ ETRI 오픈 API 활용 공모전
 
 ### 5. 실행 화면
 <div>클릭 시 유튜브 링크로 이동!</div>
+
 [![Video Label](http://img.youtube.com/vi/mKxJq0bmmcg/0.jpg)](https://youtu.be/mKxJq0bmmcg?t=0s)
 
 ### 6. 성과
