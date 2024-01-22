@@ -9,11 +9,16 @@ ETRI 오픈 API 활용 공모전
 <details>
   <summary>메인 화면</summary>
   <img width="162" alt="image" src="https://github.com/KNUwarriors/ETRI_Kiosk/assets/87633056/37c7999e-e510-4f1f-8499-94fbc98389be">
-  * 메뉴판: 카페 메뉴판을 Recycler View를 사용하여 화면에 출력
-  * 주문하기 버튼: 주문페이지로 이동하는 버튼
-  * 메뉴 사전: 메뉴를 검색하는 메뉴 사전 페이지로 이동하는 버튼
-  * 결제하기: 결제를 하여 장바구니를 비워주는 버튼
-  * 장바구니: 사용자가 주문한 메뉴들을 Recycler View를 통해 결제버튼 왼 편에 출력한다. ‘+’버튼과 ‘-’버튼을 이용하여 주문한 메뉴의 개수를 수정할 수 있다.
+  <div>
+    <ul>
+      <li>메뉴판: 카페 메뉴판을 Recycler View를 사용하여 화면에 출력</li>
+      주문하기 버튼: 주문페이지로 이동하는 버튼</li>
+      <li>메뉴 사전: 메뉴를 검색하는 메뉴 사전 페이지로 이동하는 버튼</li>
+     <li>결제하기: 결제를 하여 장바구니를 비워주는 버튼</li>
+     <li>장바구니: 사용자가 주문한 메뉴들을 Recycler View를 통해 결제버튼 왼 편에 출력한다. ‘+’버튼과 ‘-’버튼을 이용하여 주문한 메뉴의 개수를 수정할 수 있다.</li>
+    </ul>
+  </div>
+
   </details>
 
   <details><summary>주문 화면</summary></details>
