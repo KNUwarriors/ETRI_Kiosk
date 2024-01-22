@@ -9,7 +9,7 @@ ETRI 오픈 API 활용 공모전
 <details>
   <summary>메인 화면</summary>
   <img width="162" alt="image" src="https://github.com/KNUwarriors/ETRI_Kiosk/assets/87633056/37c7999e-e510-4f1f-8499-94fbc98389be">
-   * 메뉴판: 카페 메뉴판을 Recycler View를 사용하여 화면에 출력
+  * 메뉴판: 카페 메뉴판을 Recycler View를 사용하여 화면에 출력
   * 주문하기 버튼: 주문페이지로 이동하는 버튼
   * 메뉴 사전: 메뉴를 검색하는 메뉴 사전 페이지로 이동하는 버튼
   * 결제하기: 결제를 하여 장바구니를 비워주는 버튼
