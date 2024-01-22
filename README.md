@@ -61,9 +61,13 @@ ETRI 오픈 API 활용 공모전
 
 
 ### 5. 실행 화면
+클릭 시 유튜브 링크로 이동!
+<div>
 [![Video Label](http://img.youtube.com/vi/mKxJq0bmmcg/0.jpg)](https://youtu.be/mKxJq0bmmcg?t=0s)
+</div>
 
 ### 6. 성과
+ETRI(한국전자통신연구원) 오픈 API 활용 공모전 가작 수상
 
 Android 12 
 API 31 사용 권장
@@ -71,8 +75,3 @@ API 31 사용 권장
 <마이크 사용>
 실행 후 마이크 사용 허용 클릭 
 Emulator 설정 (Extended controls, 점세개모양 버튼) -> virtual microphone uses input 허용 
-
-
-
-
-
