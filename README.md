@@ -67,7 +67,7 @@ ETRI 오픈 API 활용 공모전
 ### 6. 성과
 ETRI(한국전자통신연구원) 오픈 API 활용 공모전 가작 수상
 
-<br>
+<hr>
 Android 12 
 API 31 사용 권장
 
