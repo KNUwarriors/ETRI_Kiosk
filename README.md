@@ -57,7 +57,8 @@ ETRI 오픈 API 활용 공모전
 
 
 ### 4. 워크플로우
-![image](https://github.com/KNUwarriors/ETRI_Kiosk/assets/87633056/ccc80992-ad96-4579-aa72-2b171c232c6a)
+<img width="629" alt="image" src="https://github.com/KNUwarriors/ETRI_Kiosk/assets/87633056/75955cbd-3319-494a-8e66-b7310b2522a5">
+
 
 ### 5. 실행 화면
 [![Video Label](http://img.youtube.com/vi/mKxJq0bmmcg/0.jpg)](https://youtu.be/mKxJq0bmmcg?t=0s)
