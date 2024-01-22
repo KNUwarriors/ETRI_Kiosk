@@ -52,12 +52,9 @@ ETRI 오픈 API 활용 공모전
   </div>
 </details>
 
- 
-
-
-
-
 ### 3. 기술 스택
+<img width="629" alt="image" src="https://github.com/KNUwarriors/ETRI_Kiosk/assets/87633056/f52117aa-267a-4853-807d-0f8e7b983c19">
+
 
 ### 4. 워크플로우
 ![image](https://github.com/KNUwarriors/ETRI_Kiosk/assets/87633056/ccc80992-ad96-4579-aa72-2b171c232c6a)
