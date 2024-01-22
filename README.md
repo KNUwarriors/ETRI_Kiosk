@@ -8,7 +8,8 @@ ETRI 오픈 API 활용 공모전
 ### 2. 프로젝트 기능
 <details>
   <summary>메인 화면</summary>
-  <img width="160" alt="image" src="https://github.com/KNUwarriors/ETRI_Kiosk/assets/87633056/2584641d-cdbd-4a42-a5ac-65c7bb5edda0">
+  ![image](https://github.com/KNUwarriors/ETRI_Kiosk/assets/87633056/39ffb271-7453-4842-81b3-bba1f8eff768)
+
 
   <summary>주문 화면</summary>
   <summary>메뉴 사전 화면</summary>
