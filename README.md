@@ -13,4 +13,4 @@ API 31 사용 권장
 Emulator 설정 (Extended controls, 점세개모양 버튼) -> virtual microphone uses input 허용 
 ![image](https://github.com/KNUwarriors/ETRI_Kiosk/assets/87633056/5427bdc5-b335-411c-a4b4-9b4ceb526c7a)
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/mKxJq0bmmcg?si=IpwMt2ZJx4XHxDo5" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+[![Video Label](http://img.youtube.com/vi/oJZrsUTWs34cNsNE/0.jpg)](https://youtu.be/mKxJq0bmmcg?si=oJZrsUTWs34cNsNE)
