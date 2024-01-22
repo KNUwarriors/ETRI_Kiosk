@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class ETRIApiHandler {
     private static final String OPEN_API_URL = "http://aiopen.etri.re.kr:8000/MRCServlet";
-    private static final String ACCESS_KEY = "c692a8e7-7450-432a-9468-a4049cc27974";
+    private static final String ACCESS_KEY = "mykey";
     private static String responseBody;
 
     public interface OnETRIApiResultListener {
